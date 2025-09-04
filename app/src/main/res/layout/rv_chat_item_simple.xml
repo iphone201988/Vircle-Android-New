@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSHowDate"
+            style="@style/TextView.medium"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:textColor="@color/black3"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clReceiver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvSHowDate"
+            android:layout_marginEnd="@dimen/_75sdp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/receiver_chat_bg"
+                android:paddingBottom="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReceiverName"
+                    style="@style/TextView.medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:textColor="@color/black3"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvReceiverTime"
+                    style="@style/TextView.medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvReceiverName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvSHowDate"
+            android:layout_marginStart="@dimen/_75sdp"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:background="@drawable/sender_chat_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSenderName"
+                    style="@style/TextView.medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:minWidth="@dimen/_75sdp"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:textColor="@color/color_F9F9F9"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSenderTime"
+                    style="@style/TextView.medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:textColor="@color/white_70"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSenderName" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

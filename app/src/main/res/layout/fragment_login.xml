@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tech.vircle.ui.auth.AuthCommonVM" />
+    </data>
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@color/light_mode_background"
+            android:layout_height="match_parent"
+            tools:context=".ui.auth.login.LoginFragment">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clCommon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/loginHeading"
+                    style="@style/TextView.bold"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:text="@string/log_in"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/subTitle"
+                    style="@style/TextView.semibold2"
+                    android:textSize="@dimen/_15ssp"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/your_ai_companions_are_waiting_to_chat"
+                    app:layout_constraintStart_toStartOf="@+id/loginHeading"
+                    app:layout_constraintTop_toBottomOf="@+id/loginHeading" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/backButton"
+                    android:layout_width="80dp"
+                    android:layout_height="102dp"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/login_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/loginHeading" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_43sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:background="@drawable/et_bg"
+                app:layout_constraintTop_toBottomOf="@+id/clCommon">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivEmail"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:tint="@color/grey4"
+                    android:src="@drawable/email"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etEmail"
+                    style="@style/EditText"
+                    android:layout_width="0dp"
+                    android:hint="@string/enter_your_email_address"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textEmailAddress"
+                    android:nextFocusForward="@+id/etPassword"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivEmail"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_43sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:background="@drawable/et_bg"
+                app:layout_constraintTop_toBottomOf="@+id/clEmail">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPassword"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:tint="@color/grey4"
+                    android:src="@drawable/password"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etPassword"
+                    style="@style/EditText"
+                    android:layout_width="0dp"
+                    android:hint="@string/your_password"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textPassword"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivHidePassword"
+                    app:layout_constraintStart_toEndOf="@+id/ivPassword"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivHidePassword"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:padding="@dimen/_8sdp"
+                    android:tint="@color/black"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:src="@drawable/hide_password"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvForgotPassword"
+                style="@style/TextView.medium"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:textColor="@color/black6"
+                android:text="@string/forget_your_password"
+                app:layout_constraintEnd_toEndOf="@+id/clPassword"
+                app:layout_constraintTop_toBottomOf="@+id/clPassword" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnNext"
+                style="@style/TextView.bold"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_43sdp"
+                android:layout_marginTop="@dimen/_28sdp"
+                android:background="@drawable/btn_radius_50"
+                android:gravity="center"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:paddingHorizontal="@dimen/_26sdp"
+                android:text="@string/log_in"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintEnd_toEndOf="@+id/clEmail"
+                app:layout_constraintStart_toStartOf="@+id/clEmail"
+                app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOr"
+                style="@style/TextView.semibold"
+                android:layout_marginTop="@dimen/_28sdp"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:text="@string/or"
+                android:textColor="@color/grey2"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnNext" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:background="@color/grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOr"
+                app:layout_constraintEnd_toStartOf="@+id/tvOr"
+                app:layout_constraintStart_toStartOf="@id/clEmail"
+                app:layout_constraintTop_toTopOf="@+id/tvOr" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:background="@color/grey2"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOr"
+                app:layout_constraintEnd_toEndOf="@id/clEmail"
+                app:layout_constraintStart_toEndOf="@+id/tvOr"
+                app:layout_constraintTop_toTopOf="@+id/tvOr" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_43sdp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_28sdp"
+                android:background="@drawable/bg_stock_with_radius"
+                android:onClick="@{v->vm.onClick(v)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOr">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvGoogle"
+                    style="@style/TextView.medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/_12ssp"
+                    android:text="@string/continue_with"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivGoogle"
+                    app:layout_constraintStart_toEndOf="@+id/ivGoogle"
+                    app:layout_constraintTop_toTopOf="@+id/ivGoogle" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextView.semibold"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="@dimen/_3ssp"
+                    android:text="@string/google_account"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivGoogle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvGoogle"
+                    app:layout_constraintTop_toTopOf="@+id/ivGoogle" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivGoogle"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:src="@drawable/gmail"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clRegEmail"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_43sdp"
+                android:layout_marginHorizontal="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@drawable/bg_stock_with_radius"
+                android:onClick="@{v->vm.onClick(v)}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clGoogle">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvEmail"
+                    style="@style/TextView.medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginStart="@dimen/_12ssp"
+                    android:text="@string/register_with"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iEmail1"
+                    app:layout_constraintStart_toEndOf="@+id/iEmail1"
+                    app:layout_constraintTop_toTopOf="@+id/iEmail1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextView.semibold"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="@dimen/_3ssp"
+                    android:text="@string/email_adress"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iEmail1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvEmail"
+                    app:layout_constraintTop_toTopOf="@+id/iEmail1" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iEmail1"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:src="@drawable/famicons_mail_unread"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tech.vircle.ui.home.chat.ChatFragmentVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/light_mode_background"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.chat.ChatFragment">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvChat"
+            style="@style/TextView.bold"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/chat"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clSearch"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_43sdp"
+            android:layout_marginHorizontal="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/et_bg"
+            app:layout_constraintEnd_toStartOf="@+id/ivCancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvChat">
+
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etSearch"
+                style="@style/EditText"
+                android:layout_width="0dp"
+                android:hint="@string/search_in_chat"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="noExcludeDescendants"
+                android:inputType="textPersonName"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:paddingStart="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ivSearch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivSearch"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/search_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:padding="@dimen/_8sdp"
+            android:tint="@color/black"
+            android:src="@drawable/cancel_btn"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/clSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/clSearch" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvChat"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:clipToPadding="false"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clSearch"
+            tools:itemCount="14"
+            tools:listitem="@layout/rv_chat_item" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvEmpty"
+            style="@style/TextView.bold"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="Not yet chat list!"
+            android:textSize="@dimen/_13ssp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tech.vircle.ui.auth.AuthCommonVM" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_mode_background"
+        tools:context=".ui.auth.about.AboutFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clCommon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/loginHeading"
+                style="@style/TextView.bold"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:text="@string/tell_us_about_nyourself"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/subTitle"
+                style="@style/TextView.semibold"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:text="@string/choose_a_profile_picture_for_your_ai_contact"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/loginHeading"
+                app:layout_constraintTop_toBottomOf="@+id/loginHeading" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/backButton"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@drawable/bg_filter"
+                android:onClick="@{v->vm.onClick(v)}"
+                app:layout_constraintBottom_toBottomOf="@+id/loginHeading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/loginHeading">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/back_icon"
+                    android:tint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvGender"
+            style="@style/TextView.bold"
+            android:layout_width="0dp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:text="@string/gender"
+            android:textColor="@color/black3"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintBottom_toTopOf="@+id/etGender"
+            app:layout_constraintStart_toStartOf="@+id/etGender" />
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etGender"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_43sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_48sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:background="@drawable/et_bg"
+            android:backgroundTint="@color/color_F6F6F6"
+            android:focusable="false"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="textPersonName"
+            android:maxLength="15"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:paddingStart="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@+id/etAge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clCommon" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/color_999999"
+            app:layout_constraintBottom_toBottomOf="@+id/etGender"
+            app:layout_constraintEnd_toEndOf="@+id/etGender"
+            app:layout_constraintStart_toStartOf="@+id/etGender" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDropDownGender"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="@dimen/_34sdp"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/mi_select"
+            android:tint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/etGender"
+            app:layout_constraintEnd_toEndOf="@+id/etGender"
+            app:layout_constraintTop_toTopOf="@+id/etGender" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAge"
+            style="@style/TextView.bold"
+            android:layout_width="0dp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:text="@string/age"
+            android:textColor="@color/black3"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintBottom_toTopOf="@+id/etAge"
+            app:layout_constraintStart_toStartOf="@+id/etAge" />
+
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/etAge"
+            style="@style/EditText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_43sdp"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@drawable/et_bg"
+            android:backgroundTint="@color/color_F6F6F6"
+            android:focusable="false"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="noExcludeDescendants"
+            android:inputType="number"
+            android:maxLength="4"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:paddingStart="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/etGender"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etGender"
+            app:layout_constraintTop_toTopOf="@+id/etGender" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/color_999999"
+            app:layout_constraintBottom_toBottomOf="@+id/etAge"
+            app:layout_constraintEnd_toEndOf="@+id/etAge"
+            app:layout_constraintStart_toStartOf="@+id/etAge" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDropDownGenderAge"
+            android:layout_width="@dimen/_34sdp"
+            android:layout_height="@dimen/_34sdp"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/mi_select"
+            android:tint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/etAge"
+            app:layout_constraintEnd_toEndOf="@+id/etAge"
+            app:layout_constraintTop_toTopOf="@+id/etAge" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/checkbox"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginBottom="@dimen/_25sdp"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:src="@drawable/un_selected_radiobutton"
+            app:layout_constraintBottom_toTopOf="@+id/btnNext"
+            app:layout_constraintStart_toStartOf="@+id/btnNext" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/RememberMe"
+            style="@style/TextView.medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8ssp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:textColor="@color/color_6E6D6D"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/checkbox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkbox"
+            app:layout_constraintTop_toTopOf="@+id/checkbox" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btnNext"
+            style="@style/TextView.bold"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_43sdp"
+            android:layout_marginBottom="@dimen/_60sdp"
+            android:background="@drawable/btn_radius_50"
+            android:gravity="center"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:paddingHorizontal="@dimen/_26sdp"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/etAge"
+            app:layout_constraintStart_toStartOf="@+id/etGender" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

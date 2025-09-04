@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHeader"
+            style="@style/TextView.semibold"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:includeFontPadding="false"
+            android:textColor="@color/black6"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="sfdfdfsfsdf" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivClock"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_next"
+            android:tint="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvHeader" />
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchVisibility"
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:thumb="@drawable/thum_background"
+            app:layout_constraintBottom_toBottomOf="@+id/tvHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvHeader"
+            app:track="@drawable/track_background" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/color_DEDEDE1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

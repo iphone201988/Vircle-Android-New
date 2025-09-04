@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.base.SimpleRecyclerViewAdapter.SimpleCallback" />
+
+        <variable
+            name="pos"
+            type="Integer" />
+
+        <variable
+            name="bean"
+            type="com.tech.vircle.data.model.AiContactList" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@{bean.check?@drawable/second_bg_create_account_selected:@drawable/second_bg_create_account}"
+        android:onClick="@{v->callback.onItemClick(v,bean,pos)}"
+        android:padding="@dimen/_5sdp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPerson"
+            setImageFromUrl="@{bean.aiAvatar}"
+            android:layout_width="@dimen/_44sdp"
+            android:layout_height="@dimen/_44sdp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            tools:src="@drawable/mental_icon" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            style="@style/TextView.semibold"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_45sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{bean.title}"
+            android:textColor="@{bean.check ? @color/black5 : @color/black1}"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPerson"
+            app:layout_constraintTop_toTopOf="@+id/ivPerson"
+            tools:text="Mental Coach" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMessage"
+            style="@style/TextView.semibold"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_45sdp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{bean.subTitle}"
+            android:textColor="@{bean.check ? @color/grey5 : @color/grey4}"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivPerson"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            tools:text="fdffdffdsf" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:src="@{bean.check?@drawable/radiobutton:@drawable/un_selected_radiobutton}"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivPerson" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.base.SimpleRecyclerViewAdapter.SimpleCallback" />
+
+        <variable
+            name="pos"
+            type="Integer" />
+
+        <variable
+            name="bean"
+            type="com.tech.vircle.data.model.CreateAiModelClass" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clCreate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@{bean.check?@drawable/create_ai_selected_bg:@drawable/create_ai_un_sel_bg}"
+        android:onClick="@{v->callback.onItemClick(v,bean,pos)}"
+        android:paddingBottom="@dimen/_4sdp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvCategory"
+            style="@style/TextView.semibold"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:text="@{bean.category}"
+            android:textColor="@color/black4"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSelect"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@{bean.check?@drawable/radiobutton:@drawable/un_selected_radiobutton}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvCategory" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBack"
+            setImageFromInt="@{bean.image}"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/expert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

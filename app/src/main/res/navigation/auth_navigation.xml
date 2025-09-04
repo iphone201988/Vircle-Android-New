@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation">
+
+    <!--    action    -->
+
+    <action
+        android:id="@+id/navigateToSignupFragment"
+        app:destination="@id/fragmentSignup" />
+    <action
+        android:id="@+id/navigateToLoginFragment"
+        app:destination="@id/fragmentLogin" />
+    <action
+        android:id="@+id/navigateToForgotEmailFragment"
+        app:destination="@id/fragmentForgotEmail" />
+    <action
+        android:id="@+id/navigateToCodeVerificationFragment"
+        app:destination="@id/fragmentCodeVerification" />
+    <action
+        android:id="@+id/navigateToSetUpPasswordFragment"
+        app:destination="@id/fragmentSetUpPassword" />
+    <action
+        android:id="@+id/navigateToAllSetFragment"
+        app:destination="@id/fragmentAllSet" />
+    <action
+        android:id="@+id/navigateToAboutFragment"
+        app:destination="@id/fragmentAbout" />
+    <action
+        android:id="@+id/navigateToUploadPhotoFragment"
+        app:destination="@id/fragmentUploadPhoto" />
+
+    <action
+        android:id="@+id/navigateToPackageDetailsFragment"
+        app:destination="@id/fragmentPackageDetails" />
+    <action
+        android:id="@+id/navigateToChangePasswordFragment"
+        app:destination="@id/fragmentChangePassword" />
+    <action
+        android:id="@+id/navigateToPlansFragment"
+        app:destination="@id/fragmentPlans" />
+
+    <action
+        android:id="@+id/navigateToProfileFragment"
+        app:destination="@id/fragmentProfiles" />
+    <action
+        android:id="@+id/navigateToChatDetailsFragment"
+        app:destination="@id/fragmentChatDetails" />
+    <action
+        android:id="@+id/navigateToCreateAiContactFirstFragment"
+        app:destination="@id/fragmentCreateAiFirst" />
+
+    <action
+        android:id="@+id/navigateToCreateAiContactSecondFragment"
+        app:destination="@id/fragmentCreateAiSecond" />
+
+    <action
+        android:id="@+id/navigateToCreateAiContactFourFragment"
+        app:destination="@id/fragmentCreateAiFour" />
+
+    <action
+        android:id="@+id/navigateToAiContactPageFragment"
+        app:destination="@id/fragmentAiContactPage" />
+
+    <action
+        android:id="@+id/navigateToCreateAiContactThreeFragment"
+        app:destination="@id/fragmentCreateAiThree" />
+
+<!--    fragment   -->
+
+    <fragment
+        android:id="@+id/fragmentFriends"
+        android:name="com.tech.vircle.ui.home.friends.FriendsFragment"
+        tools:layout="@layout/fragment_friends" />
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.tech.vircle.ui.home.chat.ChatFragment"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.tech.vircle.ui.home.settings.SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/fragmentMySplash"
+        android:name="com.tech.vircle.ui.splash.MySplashFragment"
+        tools:layout="@layout/fragment_my_splash" />
+
+    <fragment
+        android:id="@+id/fragmentSignup"
+        android:name="com.tech.vircle.ui.auth.signup.SignupFragment"
+        tools:layout="@layout/fragment_signup" />
+    <fragment
+        android:id="@+id/fragmentLogin"
+        android:name="com.tech.vircle.ui.auth.login.LoginFragment"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/fragmentForgotEmail"
+        android:name="com.tech.vircle.ui.auth.forgot.ForgotEmailFragment"
+        tools:layout="@layout/fragment_forgot_email" />
+    <fragment
+        android:id="@+id/fragmentCodeVerification"
+        android:name="com.tech.vircle.ui.auth.forgot.CodeVerificationFragment"
+        tools:layout="@layout/fragment_code_verification" />
+    <fragment
+        android:id="@+id/fragmentSetUpPassword"
+        android:name="com.tech.vircle.ui.auth.forgot.SetUpPasswordFragment"
+        tools:layout="@layout/fragment_set_up_password" />
+    <fragment
+        android:id="@+id/fragmentAllSet"
+        android:name="com.tech.vircle.ui.auth.forgot.AllSetFragment"
+        tools:layout="@layout/fragment_all_set" />
+    <fragment
+        android:id="@+id/fragmentAbout"
+        android:name="com.tech.vircle.ui.auth.about.AboutFragment"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/fragmentUploadPhoto"
+        android:name="com.tech.vircle.ui.auth.about.UploadPhotoFragment"
+        tools:layout="@layout/fragment_upload_photo" />
+    <fragment
+        android:id="@+id/fragmentPackageDetails"
+        android:name="com.tech.vircle.ui.home.settings.package_details.PackageDetailsFragment"
+        tools:layout="@layout/fragment_package_details" />
+    <fragment
+        android:id="@+id/fragmentChangePassword"
+        android:name="com.tech.vircle.ui.home.settings.change_password.ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/fragmentPlans"
+        android:name="com.tech.vircle.ui.home.settings.plans.PlanFragment"
+        tools:layout="@layout/fragment_plan" />
+    <fragment
+        android:id="@+id/fragmentProfiles"
+        android:name="com.tech.vircle.ui.home.settings.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/fragmentChatDetails"
+        android:name="com.tech.vircle.ui.home.chat.details.ChatDetailsFragment"
+        tools:layout="@layout/fragment_chat_details" />
+    <fragment
+        android:id="@+id/fragmentCreateAiFirst"
+        android:name="com.tech.vircle.ui.home.friends.create_ai.CreateAiFirstFragment"
+        tools:layout="@layout/fragment_create_ai_first" />
+    <fragment
+        android:id="@+id/fragmentCreateAiSecond"
+        android:name="com.tech.vircle.ui.home.friends.create_ai.CreateAiSecondFragment"
+        tools:layout="@layout/fragment_create_ai_second" />
+    <fragment
+        android:id="@+id/fragmentCreateAiFour"
+        android:name="com.tech.vircle.ui.home.friends.create_ai.CreateAiFourFragment"
+        tools:layout="@layout/fragment_create_ai_four" />
+    <fragment
+        android:id="@+id/fragmentAiContactPage"
+        android:name="com.tech.vircle.ui.home.friends.ai_page.AiContactPageFragment"
+        tools:layout="@layout/fragment_ai_contact_page" />
+    <fragment
+        android:id="@+id/fragmentCreateAiThree"
+        android:name="com.tech.vircle.ui.home.friends.create_ai.CreateAiThreeFragment"
+        tools:layout="@layout/fragment_create_ai_three" />
+
+
+
+
+</navigation>

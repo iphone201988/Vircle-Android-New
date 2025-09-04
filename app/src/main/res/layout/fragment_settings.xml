@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tech.vircle.ui.home.settings.SettingsFragmentVM" />
+
+        <variable
+            name="bean"
+            type="com.tech.vircle.data.model.ProfileUser" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/_8sdp"
+        android:clipToPadding="false"
+        android:background="@color/light_mode_background"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".ui.home.settings.SettingsFragment">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSettings"
+                style="@style/TextView.bold"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/settings"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPerson"
+                android:layout_width="@dimen/_42sdp"
+                android:layout_height="@dimen/_42sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:src="@drawable/profilephoto"
+                android:scaleType="centerCrop"
+                setImageFromUrl="@{bean.avatar}"
+                app:layout_constraintStart_toStartOf="@+id/tvSettings"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettings"
+                app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+
+
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvName"
+                style="@style/TextView.semibold"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:includeFontPadding="false"
+                android:text='@{bean.name+ " "+ bean.surname}'
+                android:textColor="@color/black6"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintStart_toEndOf="@id/ivPerson"
+                app:layout_constraintTop_toTopOf="@+id/ivPerson" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvFree"
+                style="@style/TextView.semibold"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:includeFontPadding="false"
+                android:text="@string/free"
+                android:textColor="@color/grey1"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintStart_toStartOf="@id/tvName"
+                app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_33sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_filter"
+                app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ivPerson">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivFilter"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:src="@drawable/filter_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMyPlans"
+                style="@style/TextView.bold"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="@string/my_plan"
+                android:textColor="@color/grey1"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivPerson" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPlan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/plans_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMyPlans">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBasic"
+                    style="@style/TextView.bold"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:text="@string/basic"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvFree1"
+                    style="@style/TextView.bold"
+                    android:text="@string/free"
+                    android:textColor="@color/black3"
+                    app:layout_constraintStart_toStartOf="@+id/tvBasic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBasic" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRight"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:src="@drawable/right_icon"
+                    app:layout_constraintStart_toStartOf="@+id/tvFree1"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFree1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMessage"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/_25_messages_per_week"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivRight"
+                    app:layout_constraintStart_toEndOf="@id/ivRight"
+                    app:layout_constraintTop_toTopOf="@+id/ivRight" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRight1"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:src="@drawable/right_icon"
+                    app:layout_constraintStart_toStartOf="@+id/tvFree1"
+                    app:layout_constraintTop_toBottomOf="@+id/ivRight" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMessage1"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/up_to_1_ai_contact"
+                    android:textColor="@color/grey1"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivRight1"
+                    app:layout_constraintStart_toEndOf="@id/ivRight1"
+                    app:layout_constraintTop_toTopOf="@+id/ivRight1" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:src="@drawable/right_icon"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="@+id/tvFree1"
+                    app:layout_constraintTop_toBottomOf="@+id/ivRight1" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnUpgrade"
+                    style="@style/TextView.bold"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:background="@drawable/btn_radius_50"
+                    android:gravity="center"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:paddingHorizontal="@dimen/_20sdp"
+                    android:text="@string/upgrade"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvMessage1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvMessage" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:src="@drawable/frame"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvFree1"
+                    app:layout_constraintEnd_toEndOf="@+id/btnUpgrade"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clPlan"
+                tools:itemCount="14"
+                tools:listitem="@layout/rv_profile_list_tem" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnLogout"
+                style="@style/TextView.semibold"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/btn_radius_50"
+                android:backgroundTint="@color/color_F0F0F0"
+                android:gravity="center"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:paddingHorizontal="@dimen/_26sdp"
+                android:text="@string/log_out"
+                android:textColor="@color/black2"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintEnd_toEndOf="@+id/rvProfile"
+                app:layout_constraintStart_toStartOf="@+id/rvProfile"
+                app:layout_constraintTop_toBottomOf="@+id/rvProfile" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextView.bold"
+                android:text="@string/basic"
+                android:textColor="@color/grey1"
+                android:textSize="@dimen/_11ssp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

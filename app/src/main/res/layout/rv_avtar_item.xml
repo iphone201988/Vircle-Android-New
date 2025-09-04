@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.base.SimpleRecyclerViewAdapter.SimpleCallback" />
+
+        <variable
+            name="pos"
+            type="Integer" />
+
+        <variable
+            name="bean"
+            type="com.tech.vircle.data.model.UploadAvtarClass" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_height="wrap_content"
+        android:onClick="@{v->callback.onItemClick(v,bean,pos)}">
+
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPerson"
+            android:layout_width="@dimen/_38sdp"
+            android:layout_height="@dimen/_38sdp"
+            android:src="@drawable/teacher"
+            setImageFromInt="@{bean.image}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

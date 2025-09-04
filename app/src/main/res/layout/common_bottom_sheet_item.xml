@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.utils.BaseCustomBottomSheet.Listener" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_sheet_bg">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvCommon"
+                style="@style/TextView.semibold"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:text="@string/terms_amp_conditions"
+                android:textColor="@color/black3"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/okButton"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:onClick="@{v->callback.onViewClick(v)}"
+                android:visibility="gone"
+                android:scaleType="centerInside"
+                android:tint="@color/black"
+                android:src="@drawable/baseline_done_24"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCommon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvCommon" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/backButton"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_marginEnd="@dimen/_22sdp"
+                android:onClick="@{v->callback.onViewClick(v)}"
+                android:scaleType="centerInside"
+                android:src="@drawable/cancel_btn"
+                android:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCommon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvCommon" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCommon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/_30sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tvCommon"
+                tools:listitem="@layout/rv_common_item" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

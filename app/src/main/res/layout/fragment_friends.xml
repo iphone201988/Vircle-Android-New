@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tech.vircle.ui.home.friends.FriendsFragmentVM" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_mode_background"
+        tools:context=".ui.home.friends.FriendsFragment">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFriends"
+            style="@style/TextView.bold"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/ai_contacts"
+            android:textSize="@dimen/_18ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAddContact"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:onClick="@{v->vm.onClick(v)}"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/add_contact"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFriends"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvFriends" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFriends">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_190sdp"
+                android:layout_marginTop="@dimen/_55sdp"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ai_contact_empty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvEmpty"
+                style="@style/TextView.semibold"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="@string/you_haven_t_created_any_ai_friends_yet"
+                android:textColor="@color/black1"
+                android:textSize="@dimen/_17ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivEmpty" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnNext"
+                style="@style/TextView.bold"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_43sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_58sdp"
+                android:background="@drawable/btn_radius_50"
+                android:gravity="center"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:paddingHorizontal="@dimen/_26sdp"
+                android:text="@string/create_your_first_ai_friend"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmpty" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvContact"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_8sdp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFriends"
+            tools:itemCount="14"
+            tools:listitem="@layout/rv_friends_item" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.base.SimpleRecyclerViewAdapter.SimpleCallback" />
+
+        <variable
+            name="pos"
+            type="Integer" />
+
+        <variable
+            name="bean"
+            type="String" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:padding="@dimen/_2sdp"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:background="@drawable/bg_characteristics"
+        android:layout_height="wrap_content"
+        android:onClick="@{v->callback.onItemClick(v,bean,pos)}">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            style="@style/TextView.medium"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:text="@{bean}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Mentaldasdsdad"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

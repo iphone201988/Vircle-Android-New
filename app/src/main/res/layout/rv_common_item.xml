@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.base.SimpleRecyclerViewAdapter.SimpleCallback" />
+
+        <variable
+            name="pos"
+            type="Integer" />
+
+        <variable
+            name="bean"
+            type="com.tech.vircle.data.model.CommonModelClass" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_height="wrap_content"
+        android:onClick="@{v->callback.onItemClick(v,bean,pos)}">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            style="@style/TextView.semibold"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginEnd="@dimen/_45sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{bean.category}"
+            android:textColor="@{bean.isStatus?@color/black3:@color/grey2}"
+            android:textSize="@dimen/_15ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Mental Coach"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@{bean.isStatus?@drawable/radiobutton:@drawable/un_selected_radiobutton}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvName" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_3sdp"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            android:background="@color/color_D4D4D4"/>
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

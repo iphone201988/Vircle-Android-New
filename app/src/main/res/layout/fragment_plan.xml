@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tech.vircle.ui.home.settings.SettingsFragmentVM" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_mode_background"
+        android:fillViewport="true">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.home.settings.plans.PlanFragment">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPlan"
+                style="@style/TextView.bold"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/plans"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivBack"
+                android:layout_width="@dimen/_33sdp"
+                android:layout_height="@dimen/_33sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:onClick="@{v->vm.onClick(v)}"
+                android:padding="@dimen/_4sdp"
+                android:rotation="180"
+                android:tint="@color/black"
+                android:src="@drawable/ic_next"
+                app:layout_constraintBottom_toBottomOf="@+id/tvPlan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvPlan" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clClassic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_plan"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPlan">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvClassic"
+                    style="@style/TextView.bold"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:text="@string/classic"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvRegularTexter"
+                    style="@style/TextView.bold"
+                    android:text="Regular Texter"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/tvClassic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClassic" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPrice"
+                    style="@style/TextView.bold"
+                    android:text="$12.75"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/tvClassic"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRegularTexter" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMonth"
+                    style="@style/TextView.bold"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:text="/month"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvPrice"
+                    app:layout_constraintStart_toEndOf="@+id/tvPrice" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRight"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:src="@drawable/right_icon"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/tvPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPrice" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMessage"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/unlimited_messages"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivRight"
+                    app:layout_constraintStart_toEndOf="@id/ivRight"
+                    app:layout_constraintTop_toTopOf="@+id/ivRight" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivRight1"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/right_icon"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/ivRight"
+                    app:layout_constraintTop_toBottomOf="@+id/ivRight" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMessage1"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/_7_ai_contacts"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivRight1"
+                    app:layout_constraintStart_toEndOf="@id/ivRight1"
+                    app:layout_constraintTop_toTopOf="@+id/ivRight1" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvYear"
+                    style="@style/TextView.bold"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:background="@drawable/plan_btn_bg_with_stock"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/yearly"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="@id/ivRight1"
+                    app:layout_constraintTop_toBottomOf="@+id/ivRight1" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMonthly"
+                    style="@style/TextView.bold"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:background="@drawable/only_strock"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/monthly"
+                    android:textColor="@color/white_60"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvYear"
+                    app:layout_constraintStart_toEndOf="@id/tvYear"
+                    app:layout_constraintTop_toTopOf="@+id/tvYear" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnNext"
+                    style="@style/TextView.bold"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_43sdp"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_22sdp"
+                    android:background="@drawable/btn_radius_50"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:paddingHorizontal="@dimen/_26sdp"
+                    android:text="@string/current_plan"
+                    android:textColor="@color/black7"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMonthly" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/unlimited_messages"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="@id/btnNext"
+                    app:layout_constraintTop_toBottomOf="@+id/btnNext" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clPremium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/bg_plan"
+                android:backgroundTint="@color/color_3F94E3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clClassic">
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremium"
+                    style="@style/TextView.bold"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:text="@string/premium"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvHeavyChatter"
+                    style="@style/TextView.bold"
+                    android:text="@string/heavy_chatter"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/tvPremium"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPremium" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumPrice"
+                    style="@style/TextView.bold"
+                    android:text="$36.75"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/tvPremium"
+                    app:layout_constraintTop_toBottomOf="@+id/tvHeavyChatter" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumMonth"
+                    style="@style/TextView.bold"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:text="/month"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvPremiumPrice"
+                    app:layout_constraintStart_toEndOf="@+id/tvPremiumPrice" />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPremiumRight"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:src="@drawable/right_icon"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/tvPremium"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPremiumMonth" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumMessage"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/unlimited_messages"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPremiumRight"
+                    app:layout_constraintStart_toEndOf="@id/ivPremiumRight"
+                    app:layout_constraintTop_toTopOf="@+id/ivPremiumRight" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPremiumRight1"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/right_icon"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/ivPremiumRight"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPremiumRight" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumMessage1"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/unlimited_ai_contacts"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPremiumRight1"
+                    app:layout_constraintStart_toEndOf="@id/ivPremiumRight1"
+                    app:layout_constraintTop_toTopOf="@+id/ivPremiumRight1" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPremiumRight2"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/right_icon"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/ivPremiumRight1"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPremiumRight1" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumMessage2"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/upgraded_memory"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPremiumRight2"
+                    app:layout_constraintStart_toEndOf="@id/ivPremiumRight2"
+                    app:layout_constraintTop_toTopOf="@+id/ivPremiumRight2" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ivPremiumRight3"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:src="@drawable/right_icon"
+                    android:tint="@color/white"
+                    app:layout_constraintStart_toStartOf="@+id/ivPremiumRight2"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPremiumRight2" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumMessage3"
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/priority_access_to_new_features"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivPremiumRight3"
+                    app:layout_constraintStart_toEndOf="@id/ivPremiumRight3"
+                    app:layout_constraintTop_toTopOf="@+id/ivPremiumRight3" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumYear"
+                    style="@style/TextView.bold"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:background="@drawable/plan_btn_bg_with_stock"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/yearly"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="@id/tvPremium"
+                    app:layout_constraintTop_toBottomOf="@+id/ivPremiumRight3" />
+
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPremiumMonthly"
+                    style="@style/TextView.bold"
+                    android:layout_marginStart="@dimen/_6sdp"
+                    android:background="@drawable/only_strock"
+                    android:paddingHorizontal="@dimen/_16sdp"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="@string/monthly"
+                    android:textColor="@color/white_60"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvPremiumYear"
+                    app:layout_constraintStart_toEndOf="@id/tvPremiumYear"
+                    app:layout_constraintTop_toTopOf="@+id/tvPremiumYear" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnPremiumNext"
+                    style="@style/TextView.bold"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_43sdp"
+                    android:layout_marginHorizontal="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_22sdp"
+                    android:background="@drawable/btn_radius_50"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center"
+                    android:onClick="@{v->vm.onClick(v)}"
+                    android:paddingHorizontal="@dimen/_26sdp"
+                    android:text="@string/get_the_package"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPremiumMonthly" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/TextView.regular"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/unlimited_messages"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="@id/btnPremiumNext"
+                    app:layout_constraintTop_toBottomOf="@+id/btnPremiumNext" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/TextView.bold"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:text="@string/plans"
+                android:visibility="invisible"
+                android:textSize="@dimen/_18ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clPremium" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

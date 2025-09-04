@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.tech.vircle.base.SimpleRecyclerViewAdapter.SimpleCallback" />
+
+        <variable
+            name="pos"
+            type="Integer" />
+
+        <variable
+            name="bean"
+            type="com.tech.vircle.data.model.PackageDetailsClass" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{v->callback.onItemClick(v,bean,pos)}">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivPerson"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:scaleType="centerCrop"
+            setImageFromInt="@{bean.image}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvName"
+            style="@style/TextView.medium"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:text="@{bean.name}"
+            android:textColor="@color/black2"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintStart_toEndOf="@id/ivPerson"
+            app:layout_constraintTop_toTopOf="@+id/ivPerson" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFree"
+            style="@style/TextView.medium"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:text="@{bean.subName}"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:textColor="@color/grey2"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivPerson"
+            app:layout_constraintStart_toEndOf="@id/ivPerson" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:background="@color/color_BDBDBD1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPerson" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
