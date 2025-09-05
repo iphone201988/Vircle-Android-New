@@ -62,6 +62,7 @@
 
     <color name="light_mode_background">#F9F9F9</color>
     <color name="light_mode">#FFFFFF</color>
+    <color name="search_bg">#F1F1F1</color>
 
 
 </resources>

@@ -173,7 +173,7 @@ class AiContactPageFragment : BaseFragment<FragmentAiContactPageBinding>() {
                         "deleteAiContactApi" -> {
                             try {
                                 showSuccessToast("AI contact deleted successfully")
-                                requireActivity().finish()
+                                findNavController().popBackStack()
                             } catch (e: Exception) {
                                 Log.e("error", "deleteAiContactApi: $e")
                             } finally {

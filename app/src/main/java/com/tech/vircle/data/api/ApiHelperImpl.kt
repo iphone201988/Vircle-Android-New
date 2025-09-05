@@ -68,6 +68,13 @@ class ApiHelperImpl @Inject constructor(private val apiService: ApiService, priv
         return apiService.apiForPostOnlyImageMultipart(url, part,getTokenFromSPref())
     }
 
+    override suspend fun apiForPostOnlyAiAvtar(
+        url: String,
+        map: HashMap<String, RequestBody>?,
+    ): Response<JsonObject> {
+        return apiService.apiForPostOnlyAiAvtar(url, map,getTokenFromSPref())
+    }
+
     override suspend fun apiForPostMultipart1(
         url: String,
         map: HashMap<String, RequestBody>?,

@@ -8,9 +8,7 @@
         <variable
             name="vm"
             type="com.tech.vircle.ui.home.chat.ChatFragmentVM" />
-        <variable
-            name="bean"
-            type="com.tech.vircle.data.model.Chat" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +58,6 @@
                     android:onClick="@{v->vm.onClick(v)}"
                     android:src="@drawable/profilephoto"
                     android:scaleType="centerCrop"
-                    setImageFromUrl="@{bean.contactId.aiAvatar}"
                     app:layout_constraintStart_toEndOf="@+id/ivBack"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
@@ -76,7 +73,6 @@
                     android:layout_marginEnd="@dimen/_45sdp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@{bean.contactId.name}"
                     android:textColor="@color/black6"
                     android:textSize="@dimen/_11ssp"
                     app:layout_constraintEnd_toEndOf="parent"

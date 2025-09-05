@@ -115,6 +115,16 @@ interface ApiService {
         @Header("Authorization") token: String,
     ): Response<JsonObject>
 
+    @Multipart
+    @JvmSuppressWildcards
+    @PUT
+    suspend fun apiForPostOnlyAiAvtar(
+        @Url url: String,
+        @PartMap data: Map<String, RequestBody>?,
+        @Header("Authorization") token: String,
+    ): Response<JsonObject>
+
+
     @Headers(Constants.HEADER_API)
     @Multipart
     @JvmSuppressWildcards

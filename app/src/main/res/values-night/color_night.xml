@@ -50,4 +50,5 @@
     <color name="color_C7C7C7">#C7C7C7</color>
     <color name="light_mode_background">#211F2E</color>
     <color name="light_mode">#000000</color>
+    <color name="search_bg">#1AF1F1F1</color>
 </resources>

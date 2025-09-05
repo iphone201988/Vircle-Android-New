@@ -11,11 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.tech.vircle.R
 import com.tech.vircle.base.BaseFragment
 import com.tech.vircle.base.BaseViewModel
 import com.tech.vircle.data.api.Constants
+import com.tech.vircle.data.model.AiContact
 import com.tech.vircle.data.model.Chat
+import com.tech.vircle.data.model.CreateAiData
 import com.tech.vircle.data.model.GetUserMessageData
 import com.tech.vircle.data.model.Message
 import com.tech.vircle.databinding.FragmentChatDetailsBinding
@@ -44,7 +47,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
     // private lateinit var chatAdapter: SimpleRecyclerViewAdapter<Message, RvChatItemSimpleBinding>
     private var displayChatList = ArrayList<Message>()
     private lateinit var mSocket: Socket
-    private var chatId = ""
+    private var chatMessageId = ""
     private var currentPage = 1
     private var scroll: Int = 1
     private var isLoading = false
@@ -63,13 +66,32 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
         // intent data
         val chat: Chat? = arguments?.getParcelable("chat")
         chat?.let {
-            binding.bean = it
-            chatId = it._id.toString()
+            Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + it.contactId?.aiAvatar)
+                .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
+                .into(binding.ivPerson)
+            binding.tvName.text= it.contactId?.name
+            chatMessageId = it._id.toString()
             // api call
             val data = HashMap<String, Any>()
             data["page"] = currentPage
             viewModel.getChatDetailsApi(Constants.GET_CHATS_MESSAGES + "/${it._id}", data)
         }
+        val userDetails = arguments?.getParcelable<CreateAiData>("userAiContact")
+        val chatId = arguments?.getString("chatId")
+        userDetails?.let {
+            Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + userDetails.contact?.aiAvatar)
+                .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
+                .into(binding.ivPerson)
+            binding.tvName.text= userDetails.contact?.name
+        }
+        chatId?.let {
+            chatMessageId = it.toString()
+            val data = HashMap<String, Any>()
+            data["page"] = currentPage
+            viewModel.getChatDetailsApi(Constants.GET_CHATS_MESSAGES + "/${it}", data)
+        }
+
+
         // adapter
 //        chatAdapter = MessageAdapter()
 //        binding.rvChatDetails.adapter = chatAdapter
@@ -201,13 +223,12 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                 // Send button click
                 R.id.ivSend -> {
                     val messageText = binding.etMessage.text.toString().trim()
-                    if (messageText.isNotEmpty() && chatId.isNotEmpty()) {
-                        sendMessage(messageText, chatId)
+                    if (messageText.isNotEmpty() && chatMessageId.isNotEmpty()) {
+                        sendMessage(messageText, chatMessageId)
 
                     } else {
                         showInfoToast("Please enter message")
                     }
-
 
                     /*  if (messageText.isNotEmpty()) {
                             val currentTime =
@@ -244,7 +265,6 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                             showInfoToast("Please enter message")
                         }*/
                 }
-
 
             }
         }
@@ -349,7 +369,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                      chatAdapter.addToListSendMessage(listOf(chatMessage))
 
                     if (chatMessage.chatId?.isNotEmpty() == true) {
-                        checkIsRead(chatMessage.chatId)
+                        checkIsRead(chatMessage.chatId!!)
                     }
                     binding.rvChatDetails.scrollToPosition(chatAdapter.itemCount - 1)
                     binding.imgTyping.visibility = View.GONE

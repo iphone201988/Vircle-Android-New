@@ -33,6 +33,24 @@ class ChatFragmentVM @Inject constructor(private val apiHelper: ApiHelper): Base
         }
     }
 
+    // search chat api
+    fun searchChatApi(url: String,data: HashMap<String, Any>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            observeCommon.postValue(Resource.loading(null))
+            try {
+                apiHelper.apiGetQueryToken(url,data).let {
+                    if (it.isSuccessful) {
+                        observeCommon.postValue(Resource.success("searchChatApi", it.body()))
+                    } else observeCommon.postValue(
+                        Resource.error(handleErrorResponse(it.errorBody(), it.code()), null)
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("searchChatApi", "searchChatApi: $e")
+            }
+        }
+    }
+
     // get chat details api
     fun getChatDetailsApi(url: String,data: HashMap<String, Any>) {
         CoroutineScope(Dispatchers.IO).launch {

@@ -1,13 +1,9 @@
 package com.tech.vircle.ui.home.friends.create_ai
 
 import android.app.Activity.RESULT_OK
-import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
+import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -27,7 +23,9 @@ import com.tech.vircle.base.BaseFragment
 import com.tech.vircle.base.BaseViewModel
 import com.tech.vircle.base.SimpleRecyclerViewAdapter
 import com.tech.vircle.data.api.Constants
-import com.tech.vircle.data.model.UploadAvtarClass
+import com.tech.vircle.data.model.CreateAiContactResponse
+import com.tech.vircle.data.model.CreateAiData
+import com.tech.vircle.data.model.GetAvtarResponse
 import com.tech.vircle.databinding.AvatarBottomSheetBinding
 import com.tech.vircle.databinding.FragmentCreateAiFourBinding
 import com.tech.vircle.databinding.RvAvtarItemBinding
@@ -38,14 +36,14 @@ import com.tech.vircle.utils.BaseCustomBottomSheet
 import com.tech.vircle.utils.BaseCustomDialog
 import com.tech.vircle.utils.BindingUtils
 import com.tech.vircle.utils.Status
-import com.tech.vircle.utils.event.DummyList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 
 
@@ -53,12 +51,15 @@ import java.io.IOException
 class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
     private val viewModel: FriendsFragmentVM by viewModels()
     private var avatarBottomSheet: BaseCustomBottomSheet<AvatarBottomSheetBinding>? = null
-    private lateinit var avatarAdapter: SimpleRecyclerViewAdapter<UploadAvtarClass, RvAvtarItemBinding>
+    private lateinit var avatarAdapter: SimpleRecyclerViewAdapter<String, RvAvtarItemBinding>
     private var imageDialog: BaseCustomDialog<VideoImagePickerDialogBoxBinding>? = null
     private var photoFile2: File? = null
     private var photoURI: Uri? = null
     private var multipartPart: MultipartBody.Part? = null
-    private var userName = ""
+    private var avtarName = ""
+    private var userId: String? = null
+    private var userChatId: String? = null
+    private lateinit var aiContact: CreateAiData
     override fun getLayoutResource(): Int {
         return R.layout.fragment_create_ai_four
     }
@@ -70,12 +71,14 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
     override fun onCreateView(view: View) {
         // click
         initOnCLick()
-        // assign from arguments
-        val nameData = arguments?.getString("nameData")
-        userName = nameData.toString()
-
         // observer
         initObserver()
+        val userDetails = arguments?.getParcelable<CreateAiData>("userDetails")
+        if (userDetails != null) {
+            userId = userDetails.contact?._id
+            userChatId = userDetails.chatId
+            aiContact = userDetails
+        }
     }
 
     /**
@@ -92,13 +95,67 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
                     when (it.message) {
                         "updateAiImageApi" -> {
                             try {
-                                showSuccessToast("Profile updated")
+                                val myDataModel: CreateAiContactResponse? =
+                                    BindingUtils.parseJson(it.data.toString())
+                                if (myDataModel != null) {
+                                    if (myDataModel.data != null) {
+                                        aiContact = myDataModel.data
+                                        showSuccessToast(myDataModel.message.toString())
+                                        Glide.with(requireContext())
+                                            .load(Constants.MEDIA_BASE_URL + myDataModel.data.contact?.aiAvatar)
+                                            .placeholder(R.drawable.profilephoto)
+                                            .error(R.drawable.profilephoto).into(binding.ivPerson)
+                                    }
+                                }
+
+                            } catch (e: Exception) {
+                                Log.e("error", "createAiContactApi: $e")
+                            } finally {
+                                hideLoading()
+                            }
+                        }
+
+                        "getAvtarApi" -> {
+                            try {
+                                val myDataModel: GetAvtarResponse? =
+                                    BindingUtils.parseJson(it.data.toString())
+                                if (myDataModel != null) {
+                                    showSuccessToast(myDataModel.message.toString())
+                                    avatarBottomSheet()
+                                    if (myDataModel.avatars?.avatars?.size!! > 0) {
+                                        avatarAdapter.list = myDataModel.avatars.avatars
+                                    }
+                                }
+
                             } catch (e: Exception) {
                                 Log.e("error", "updateAiImageApi: $e")
                             } finally {
                                 hideLoading()
                             }
                         }
+
+                        "updateAiAvtarApi" -> {
+                            try {
+                                val myDataModel: CreateAiContactResponse? =
+                                    BindingUtils.parseJson(it.data.toString())
+                                if (myDataModel != null) {
+                                    if (myDataModel.data != null) {
+                                        aiContact = myDataModel.data
+                                        showSuccessToast(myDataModel.message.toString())
+                                        Glide.with(requireContext())
+                                            .load(Constants.MEDIA_BASE_URL + myDataModel.data.contact?.aiAvatar)
+                                            .placeholder(R.drawable.profilephoto)
+                                            .error(R.drawable.profilephoto).into(binding.ivPerson)
+                                    }
+                                }
+
+                            } catch (e: Exception) {
+                                Log.e("error", "createAiContactApi: $e")
+                            } finally {
+                                hideLoading()
+                            }
+                        }
+
                     }
                 }
 
@@ -122,7 +179,9 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
             when (it?.id) {
                 // back button click
                 R.id.ivBack -> {
-                    findNavController().popBackStack()
+                    BindingUtils.navigateWithSlide(
+                        findNavController(), R.id.fragmentFriends, null
+                    )
                 }
 
                 // Start Talking button click
@@ -158,10 +217,18 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
                     } else {
                         showInfoToast("Please add a image")
                     }*/
+
+                    val bundle = Bundle()
+                    bundle.putParcelable("userAiContact", aiContact)
+                    bundle.putString("chatId", userChatId)
+                    BindingUtils.navigateWithSlide(
+                        findNavController(), R.id.navigateToChatDetailsFragment, bundle
+                    )
                 }
                 // btn Choose From Library button click
                 R.id.btnChooseFromLibrary -> {
-                    avatarBottomSheet()
+                    // api call
+                    viewModel.getAvtarApi(Constants.GET_AVTAR)
                 }
                 // iv edit
                 R.id.ivEdit -> {
@@ -255,7 +322,7 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
                         // binding.ivPerson.setImageURI(imageUri)
                         multipartPart = convertMultipartPartGal(uri)
 
-                        viewModel.updateAiImageApi(Constants.AI_CONTACT_ADD, multipartPart)
+                        viewModel.updateAiImageApi(Constants.AI_CONTACT_UPDATE+"/$userId", multipartPart)
                     } catch (e: Exception) {
                         e.printStackTrace()
                         showErrorToast("Image compression failed")
@@ -314,7 +381,7 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
                             //binding.ivPerson.setImageURI(imageUri)
                             multipartPart = convertMultipartPart(imageUri)
 
-                            viewModel.updateAiImageApi(Constants.AI_CONTACT_ADD, multipartPart)
+                            viewModel.updateAiImageApi(Constants.AI_CONTACT_UPDATE+"/$userId", multipartPart)
                         } catch (e: Exception) {
                             e.printStackTrace()
                             showErrorToast("Compression fail")
@@ -384,40 +451,21 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
         avatarAdapter = SimpleRecyclerViewAdapter(R.layout.rv_avtar_item, BR.bean) { v, m, pos ->
             when (v?.id) {
                 R.id.main -> {
-                    for (i in avatarAdapter.list) {
-                        i.check = i.image == m.image
+                    avtarName = m
+                    Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + m)
+                        .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
+                        .into(binding.ivPerson)
+                    avatarBottomSheet?.dismiss()
+                    val data = HashMap<String, RequestBody>()
+                    data["definedAvatar"] = avtarName.toRequestBody()
+                    if (userId != null) {
+                        viewModel.updateAiAvtarApi(Constants.AI_CONTACT_UPDATE + "/$userId", data)
                     }
-                    avatarAdapter.notifyDataSetChanged()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        val bitmap =
-                            BitmapFactory.decodeResource(requireContext().resources, m.image)
-                        val imageFile = bitmapToFile(requireContext(), bitmap, "profilePicture")
-                        multipartPart = fileToMultipart(imageFile)
-                        binding.ivPerson.setImageResource(m.image)
-                        avatarBottomSheet?.dismiss()
-                    }, 300)
 
                 }
             }
         }
-        avatarAdapter.list = DummyList.addAvtarList()
         avatarBottomSheet?.binding?.rvAvatar?.adapter = avatarAdapter
-    }
-
-
-    private fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File {
-        val file = File(context.cacheDir, "$fileName.jpg")
-        val out = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-        out.flush()
-        out.close()
-        return file
-    }
-
-
-    private fun fileToMultipart(file: File, partName: String = "avatar"): MultipartBody.Part {
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
     }
 
 

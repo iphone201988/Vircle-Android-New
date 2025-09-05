@@ -16,7 +16,7 @@
 
         <variable
             name="bean"
-            type="com.tech.vircle.data.model.UploadAvtarClass" />
+            type="String" />
 
         <import type="android.view.View" />
     </data>
@@ -36,7 +36,7 @@
             android:layout_width="@dimen/_38sdp"
             android:layout_height="@dimen/_38sdp"
             android:src="@drawable/teacher"
-            setImageFromInt="@{bean.image}"
+            setImageFromUrl="@{bean}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

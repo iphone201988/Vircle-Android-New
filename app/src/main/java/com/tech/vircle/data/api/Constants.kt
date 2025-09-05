@@ -37,6 +37,8 @@ object Constants {
     const val AI_CONTACT_UPDATE = "aiContact/updateAiContact"
     const val AI_CONTACT_DELETE = "aiContact/deleteAiContact"
     const val CLEAR_CHAT = "chat/deleteChatMessages"
+    const val GET_AVTAR = "admin/getdefinedAvatar"
+    const val CHAT_SEARCH = "chat/searchAicontactsAndMessages"
 
 
 

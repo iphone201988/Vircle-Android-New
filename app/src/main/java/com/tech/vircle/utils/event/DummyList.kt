@@ -347,41 +347,5 @@ object DummyList {
         )
     }
 
-    // add avtar list
-    fun addAvtarList(): ArrayList<UploadAvtarClass> {
-        return arrayListOf(
-            UploadAvtarClass(R.drawable.teacher),
-            UploadAvtarClass(R.drawable.mental_icon),
-            UploadAvtarClass(R.drawable.cooking_expert),
-            UploadAvtarClass(R.drawable.fitness_icon),
-            UploadAvtarClass(R.drawable.language_partner),
-            UploadAvtarClass(R.drawable.melody),
-            UploadAvtarClass(R.drawable.teacher),
-            UploadAvtarClass(R.drawable.mental_icon),
-            UploadAvtarClass(R.drawable.cooking_expert),
-            UploadAvtarClass(R.drawable.fitness_icon),
-            UploadAvtarClass(R.drawable.language_partner),
-            UploadAvtarClass(R.drawable.melody),
-            UploadAvtarClass(R.drawable.teacher),
-            UploadAvtarClass(R.drawable.mental_icon),
-            UploadAvtarClass(R.drawable.cooking_expert),
-            UploadAvtarClass(R.drawable.fitness_icon),
-            UploadAvtarClass(R.drawable.language_partner),
-            UploadAvtarClass(R.drawable.melody),
-            UploadAvtarClass(R.drawable.teacher),
-            UploadAvtarClass(R.drawable.mental_icon),
-            UploadAvtarClass(R.drawable.cooking_expert),
-            UploadAvtarClass(R.drawable.fitness_icon),
-            UploadAvtarClass(R.drawable.language_partner),
-            UploadAvtarClass(R.drawable.melody),
-            UploadAvtarClass(R.drawable.teacher),
-            UploadAvtarClass(R.drawable.mental_icon),
-            UploadAvtarClass(R.drawable.cooking_expert),
-            UploadAvtarClass(R.drawable.fitness_icon),
-            UploadAvtarClass(R.drawable.language_partner),
-            UploadAvtarClass(R.drawable.melody),
-
-            )
-    }
 
 }

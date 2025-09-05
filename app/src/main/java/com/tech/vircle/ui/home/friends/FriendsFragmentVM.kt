@@ -35,6 +35,24 @@ class FriendsFragmentVM @Inject constructor(private val apiHelper: ApiHelper): B
         }
     }
 
+    // get avtar api
+    fun getAvtarApi(url: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            observeCommon.postValue(Resource.loading(null))
+            try {
+                apiHelper.apiGetOnlyAuthToken(url).let {
+                    if (it.isSuccessful) {
+                        observeCommon.postValue(Resource.success("getAvtarApi", it.body()))
+                    } else observeCommon.postValue(
+                        Resource.error(handleErrorResponse(it.errorBody(), it.code()), null)
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("getAvtarApi", "getAvtarApi: $e")
+            }
+        }
+    }
+
     // get contact type api
     fun getContactTypesApi(url: String,data: HashMap<String, Any>) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -85,6 +103,25 @@ class FriendsFragmentVM @Inject constructor(private val apiHelper: ApiHelper): B
                 }
             } catch (e: Exception) {
                 Log.d("updateAiImageApi", "createAiImageApi: $e")
+            }
+        }
+    }
+
+
+    // update ai contact image  api
+    fun updateAiAvtarApi(url: String,map: HashMap<String, RequestBody>?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            observeCommon.postValue(Resource.loading(null))
+            try {
+                apiHelper.apiForPostOnlyAiAvtar(url,map).let {
+                    if (it.isSuccessful) {
+                        observeCommon.postValue(Resource.success("updateAiAvtarApi", it.body()))
+                    } else observeCommon.postValue(
+                        Resource.error(handleErrorResponse(it.errorBody(), it.code()), null)
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("updateAiAvtarApi", "updateAiAvtarApi: $e")
             }
         }
     }

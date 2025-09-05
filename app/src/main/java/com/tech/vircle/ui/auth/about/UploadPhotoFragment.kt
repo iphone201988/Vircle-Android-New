@@ -4,11 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -28,7 +24,7 @@ import com.tech.vircle.base.BaseFragment
 import com.tech.vircle.base.BaseViewModel
 import com.tech.vircle.base.SimpleRecyclerViewAdapter
 import com.tech.vircle.data.api.Constants
-import com.tech.vircle.data.model.UploadAvtarClass
+import com.tech.vircle.data.model.GetAvtarResponse
 import com.tech.vircle.data.model.UserRegistrationResponse
 import com.tech.vircle.databinding.AvatarBottomSheetBinding
 import com.tech.vircle.databinding.FragmentUploadPhotoBinding
@@ -40,7 +36,6 @@ import com.tech.vircle.utils.BaseCustomBottomSheet
 import com.tech.vircle.utils.BaseCustomDialog
 import com.tech.vircle.utils.BindingUtils
 import com.tech.vircle.utils.Status
-import com.tech.vircle.utils.event.DummyList
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -58,13 +53,14 @@ import java.util.Locale
 class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
     private val viewModel: AuthCommonVM by viewModels()
     private var avatarBottomSheet: BaseCustomBottomSheet<AvatarBottomSheetBinding>? = null
-    private lateinit var avatarAdapter: SimpleRecyclerViewAdapter<UploadAvtarClass, RvAvtarItemBinding>
+    private lateinit var avatarAdapter: SimpleRecyclerViewAdapter<String, RvAvtarItemBinding>
     private var imageDialog: BaseCustomDialog<VideoImagePickerDialogBoxBinding>? = null
     private var photoFile2: File? = null
     private var photoURI: Uri? = null
     private var multipartPart: MultipartBody.Part? = null
     private var age: String? = null
     private var gender: String? = null
+    private var selectedAvatar: String? = null
     private var isPrivacyPolicy: Boolean = false
 
     override fun getLayoutResource(): Int {
@@ -119,6 +115,26 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                                 hideLoading()
                             }
                         }
+
+
+                        "getAvtarApi" -> {
+                            try {
+                                val myDataModel: GetAvtarResponse? =
+                                    BindingUtils.parseJson(it.data.toString())
+                                if (myDataModel != null) {
+                                    showSuccessToast(myDataModel.message.toString())
+                                    avatarBottomSheet()
+                                    if (myDataModel.avatars?.avatars?.size!! > 0) {
+                                        avatarAdapter.list = myDataModel.avatars.avatars
+                                    }
+                                }
+
+                            } catch (e: Exception) {
+                                Log.e("error", "updateAiImageApi: $e")
+                            } finally {
+                                hideLoading()
+                            }
+                        }
                     }
                 }
 
@@ -146,7 +162,7 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                 }
                 // lets start  button click
                 R.id.btnLetStart -> {
-                    if (multipartPart != null) {
+                    if (multipartPart != null || selectedAvatar?.isNotEmpty() == true) {
                         val data = HashMap<String, RequestBody>()
                         if (gender?.isNotEmpty() == true) {
                             data["gender"] = gender!!.lowercase(Locale.US).toRequestBody()
@@ -158,6 +174,8 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                             data["age"] = age!!.toRequestBody()
                         }
                         data["termsAccepted"] = isPrivacyPolicy.toString().toRequestBody()
+
+                        data["definedAvatar"] = selectedAvatar.toString().toRequestBody()
 
                         viewModel.completeRegistration(
                             Constants.USER_COMPLETE_REGISTER + "/${sharedPrefManager.getLoginData()?.user?._id}",
@@ -171,7 +189,8 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                 }
                 // choose from gallery button button click
                 R.id.btnChooseFromLibrary -> {
-                    avatarBottomSheet()
+                    // api call
+                    viewModel.getAvtarApi(Constants.GET_AVTAR)
                 }
                 // edit button click
                 R.id.ivEdit -> {
@@ -260,9 +279,7 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                 imageUri?.let { uri ->
                     try {
 
-                        Glide.with(requireActivity())
-                            .load(imageUri)
-                            .centerCrop()
+                        Glide.with(requireActivity()).load(imageUri).centerCrop()
                             .into(binding.ivPerson)
                         //binding.ivPerson.setImageURI(imageUri)
                         multipartPart = convertMultipartPartGal(uri)
@@ -319,11 +336,9 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                     val imageUri = imagePath.toUri()
                     lifecycleScope.launch {
                         try {
-                            Glide.with(requireActivity())
-                                .load(imageUri)
-                                .centerCrop()
+                            Glide.with(requireActivity()).load(imageUri).centerCrop()
                                 .into(binding.ivPerson)
-                           // binding.ivPerson.setImageURI(imageUri)
+                            // binding.ivPerson.setImageURI(imageUri)
                             multipartPart = convertMultipartPart(imageUri)
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -390,39 +405,18 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
         avatarAdapter = SimpleRecyclerViewAdapter(R.layout.rv_avtar_item, BR.bean) { v, m, pos ->
             when (v?.id) {
                 R.id.main -> {
-                    for (i in avatarAdapter.list) {
-                        i.check = i.image == m.image
-                    }
-                    avatarAdapter.notifyDataSetChanged()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        val bitmap = BitmapFactory.decodeResource(requireContext().resources, m.image as Int)
-                        val imageFile = bitmapToFile(requireContext(), bitmap, "profilePicture")
-                        multipartPart = fileToMultipart(imageFile)
-                        binding.ivPerson.setImageResource(m.image as Int)
-                        avatarBottomSheet?.dismiss()
-                    }, 300)
-
+                    Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + m)
+                        .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
+                        .into(binding.ivPerson)
+                    selectedAvatar = m
+                    avatarBottomSheet?.dismiss()
                 }
             }
         }
-        avatarAdapter.list = DummyList.addAvtarList()
+
         avatarBottomSheet?.binding?.rvAvatar?.adapter = avatarAdapter
     }
 
-    private fun bitmapToFile(context: Context, bitmap: Bitmap, fileName: String): File {
-        val file = File(context.cacheDir, "$fileName.jpg")
-        val out = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-        out.flush()
-        out.close()
-        return file
-    }
-
-
-    private fun fileToMultipart(file: File, partName: String = "avatar"): MultipartBody.Part {
-        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
-    }
 
 
 }

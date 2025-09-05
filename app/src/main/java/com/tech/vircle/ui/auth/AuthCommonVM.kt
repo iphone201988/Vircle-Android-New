@@ -143,5 +143,24 @@ class AuthCommonVM @Inject constructor(
             }
         }
     }
+
+    // get avtar api
+    fun getAvtarApi(url: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            observeCommon.postValue(Resource.loading(null))
+            try {
+                apiHelper.apiGetOnlyAuthToken(url).let {
+                    if (it.isSuccessful) {
+                        observeCommon.postValue(Resource.success("getAvtarApi", it.body()))
+                    } else observeCommon.postValue(
+                        Resource.error(handleErrorResponse(it.errorBody(), it.code()), null)
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("getAvtarApi", "getAvtarApi: $e")
+            }
+        }
+    }
+
 }
 

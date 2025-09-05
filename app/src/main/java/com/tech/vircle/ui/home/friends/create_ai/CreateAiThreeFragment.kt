@@ -168,10 +168,7 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                                     if (myDataModel.data != null) {
                                         showSuccessToast(myDataModel.message.toString())
                                         val bundle = Bundle()
-                                        bundle.putString(
-                                            "nameData",
-                                            binding.etName.text.toString().trim()
-                                        )
+                                        bundle.putParcelable("userDetails",myDataModel.data)
                                         BindingUtils.navigateWithSlide(
                                             findNavController(),
                                             R.id.navigateToCreateAiContactFourFragment,

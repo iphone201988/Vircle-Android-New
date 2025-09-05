@@ -6,14 +6,11 @@ import kotlinx.parcelize.Parcelize
 
 /** signup response **/
 data class UserRegistrationResponse(
-    val `data`: UserRegistrationData?,
-    val message: String?,
-    val success: Boolean?
+    val `data`: UserRegistrationData?, val message: String?, val success: Boolean?
 )
 
 data class UserRegistrationData(
-    val token: String?,
-    val user: User?
+    val token: String?, val user: User?
 )
 
 data class User(
@@ -29,15 +26,12 @@ data class User(
 )
 
 data class ForgotPasswordResponse(
-    val message: String?,
-    val success: Boolean?,
-    val userId: String?
+    val message: String?, val success: Boolean?, val userId: String?
 )
+
 /** get profile response **/
 data class GetUserprofileResponse(
-    val `data`: UserprofileData?,
-    val message: String?,
-    val success: Boolean?
+    val `data`: UserprofileData?, val message: String?, val success: Boolean?
 )
 
 data class UserprofileData(
@@ -60,19 +54,16 @@ data class ProfileUser(
 )
 
 
-
-
-
 /** get chat response **/
 data class GetChatResponse(
-    val `data`: ChatData?,
-    val message: String?,
-    val success: Boolean?
+    val `data`: ChatData?, val message: String?, val success: Boolean?
 )
+
 @Parcelize
 data class ChatData(
     val chats: List<Chat?>?
-): Parcelable
+) : Parcelable
+
 @Parcelize
 data class Chat(
     val _id: String?,
@@ -84,38 +75,37 @@ data class Chat(
     val unreadCount: Int?,
     val updatedAt: String?,
     val userId: UserId?
-): Parcelable
+
+) : Parcelable
+
 @Parcelize
 data class ContactId(
-    val _id: String?,
-    val aiAvatar: String?,
-    val name: String?
-): Parcelable
+    val _id: String?, val aiAvatar: String?, val name: String?
+
+) : Parcelable
+
 @Parcelize
 data class LastMessage(
-    val _id: String?,
-    val createdAt: String?,
-    val message: String?
-): Parcelable
+    val _id: String?, val createdAt: String?, val message: String?
+
+) : Parcelable
+
 @Parcelize
 data class UserId(
-    val _id: String?,
-    val avatar: String?,
-    val email: String?,
-    val name: String?
-): Parcelable
+    val _id: String?, val avatar: String?, val email: String?, val name: String?
+) : Parcelable
 
 /** get chat response **/
 @Parcelize
 data class ContactListResponse(
-    val `data`: ContactData?,
-    val message: String?,
-    val success: Boolean?
-): Parcelable
+    val `data`: ContactData?, val message: String?, val success: Boolean?
+) : Parcelable
+
 @Parcelize
 data class ContactData(
     val contacts: List<ContactList?>?
-): Parcelable
+) : Parcelable
+
 @Parcelize
 data class ContactList(
     val _id: String?,
@@ -137,21 +127,16 @@ data class ContactList(
     val updatedAt: String?,
     val userId: String?,
     val wantToHear: String?
-): Parcelable
-
-
+) : Parcelable
 
 
 /** get message response **/
 data class GetUserMessageData(
-    val `data`: MessageData?,
-    val message: String?,
-    val success: Boolean?
+    val `data`: MessageData?, val message: String?, val success: Boolean?
 )
 
 data class MessageData(
-    val messages: List<Message?>?,
-    val pagination: Pagination?
+    val messages: List<Message?>?, val pagination: Pagination?
 )
 
 data class Message(
@@ -177,14 +162,14 @@ data class Pagination(
 
 /** get Contact response **/
 data class ContactCreateListResponse(
-    val `data`: AiContactData?,
-    val message: String?,
-    val success: Boolean?
+    val `data`: AiContactData?, val message: String?, val success: Boolean?
 )
+
 @Parcelize
 data class AiContactData(
     val contact: List<AiContactList?>?
-): Parcelable
+) : Parcelable
+
 @Parcelize
 data class AiContactList(
     val _id: String?,
@@ -209,21 +194,21 @@ data class AiContactList(
     val updatedAt: String?,
     val wantToHear: String?,
     var check: Boolean = false
-): Parcelable
-
+) : Parcelable
 
 
 /** create Contact response **/
 data class CreateAiContactResponse(
-    val `data`: CreateAiData?,
-    val message: String?,
-    val success: Boolean?
+    val `data`: CreateAiData?, val message: String?, val success: Boolean?
 )
 
+@Parcelize
 data class CreateAiData(
-    val contact: AiContact?
-)
+    val contact: AiContact?,
+    val chatId: String?,
+) : Parcelable
 
+@Parcelize
 data class AiContact(
     val _id: String?,
     val age: Int?,
@@ -235,15 +220,11 @@ data class AiContact(
     val gender: String?,
     val isDeleted: Boolean?,
     val name: String?,
-    val on: Any?,
+    val on: String?,
     val relationship: String?,
     val type: String?,
     val updatedAt: String?
-
-
-)
-
-
+) : Parcelable
 
 @Parcelize
 data class AiContactDataCreate(
@@ -260,3 +241,53 @@ data class AiContactDataCreate(
     val wantToHear: String,
     val type: String
 ) : Parcelable
+
+/*** get avtar response ***/
+data class GetAvtarResponse(
+    val avatars: Avatars?, val message: String?, val success: Boolean?
+)
+
+data class Avatars(
+    val __v: Int?, val _id: String?, val avatars: List<String?>?, var isCheck: Boolean = false
+)
+
+
+/*** chat search response ***/
+data class ChatSearchResponse(
+    val `data`: ChatSearchData?, val message: String?, val success: Boolean?
+)
+
+data class ChatSearchData(
+    val AiContacts: List<Chat?>?, val messages: List<SearchMessage?>?
+)
+
+data class SearchMessage(
+    val __v: Int?,
+    val _id: String?,
+    val aiContactId: String?,
+    val chatId: String?,
+    val chatInfo: ChatInfo?,
+    val createdAt: String?,
+    val isDeleted: Boolean?,
+    val isRead: Boolean?,
+    val limit: Int?,
+    val message: String?,
+    val type: String?,
+    val updatedAt: String?,
+    val userId: String?
+)
+
+data class ChatInfo(
+    val _id: String?,
+    val contactId: ContactId?,
+    val createdAt: String?,
+    val hasUnreadMessages: Boolean?,
+    val isDeleted: Boolean?,
+    val updatedAt: String?,
+    val userId: UserId?
+)
+
+
+
+
+
