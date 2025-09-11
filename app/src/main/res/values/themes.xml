@@ -147,8 +147,8 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:paddingStart">@dimen/_4sdp</item>
         <item name="android:paddingEnd">@dimen/_14sdp</item>
-        <item name="android:textColorHint">@color/grey1</item>
-        <item name="android:textColor">@color/grey2</item>
+        <item name="android:textColorHint">@color/grey2</item>
+        <item name="android:textColor">@color/grey1</item>
         <item name="android:paddingVertical">@dimen/_11sdp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:fontFamily">@font/manrope_medium</item>

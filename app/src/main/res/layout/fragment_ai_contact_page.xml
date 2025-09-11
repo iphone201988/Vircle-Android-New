@@ -45,8 +45,8 @@
                 android:onClick="@{v->vm.onClick(v)}"
                 android:padding="@dimen/_4sdp"
                 android:rotation="180"
-                android:tint="@color/black"
                 android:src="@drawable/ic_next"
+                android:tint="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/tvAiContact"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvAiContact" />
@@ -68,8 +68,8 @@
                 android:layout_width="78dp"
                 android:layout_height="78dp"
                 android:layout_marginStart="@dimen/_20ssp"
-                android:onClick="@{v->vm.onClick(v)}"
                 android:background="@drawable/un_selected_radiobutton"
+                android:onClick="@{v->vm.onClick(v)}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivaPerson"
                 app:layout_constraintStart_toEndOf="@+id/ivaPerson"
                 app:layout_constraintTop_toTopOf="@+id/ivaPerson">
@@ -79,8 +79,8 @@
                     android:layout_width="@dimen/_22sdp"
                     android:layout_height="@dimen/_22sdp"
                     android:layout_marginTop="@dimen/_14sdp"
-                    android:tint="@color/grey6"
                     android:src="@drawable/ic_edit"
+                    android:tint="@color/grey6"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -135,12 +135,12 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ivPerson"
+                setImageFromUrl="@{bean.aiAvatar}"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:padding="1dp"
-                android:src="@drawable/dummy"
                 android:scaleType="centerCrop"
-                setImageFromUrl="@{bean.aiAvatar}"
+                android:src="@drawable/dummy"
                 app:layout_constraintBottom_toBottomOf="@+id/ivaPerson"
                 app:layout_constraintEnd_toEndOf="@+id/ivaPerson"
                 app:layout_constraintStart_toStartOf="@+id/ivaPerson"
@@ -196,7 +196,7 @@
                 android:id="@+id/tvTotalMessageCount"
                 style="@style/TextView.medium"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:text="0"
+                android:text='@{bean.totalMessages != null ? String.valueOf(bean.totalMessages) : "0"}'
                 android:textColor="@color/black3"
                 android:textSize="@dimen/_24ssp"
                 app:layout_constraintBottom_toTopOf="@+id/tvTotalMessage"
@@ -218,12 +218,12 @@
                 android:id="@+id/tvTimeSpentCount"
                 style="@style/TextView.medium"
                 android:layout_marginBottom="@dimen/_6sdp"
-                android:text="0"
                 android:textColor="@color/black3"
                 android:textSize="@dimen/_24ssp"
                 app:layout_constraintBottom_toTopOf="@+id/tvTimeSpent"
                 app:layout_constraintEnd_toEndOf="@+id/tvTimeSpent"
-                app:layout_constraintStart_toStartOf="@+id/tvTimeSpent" />
+                app:layout_constraintStart_toStartOf="@+id/tvTimeSpent"
+                app:setTimeSpent="@{bean.totalTimeSpent}" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -244,12 +244,11 @@
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_50sdp"
                 android:background="@drawable/et_bg"
-                android:hint="@string/friendly"
-                android:imeOptions="actionDone"
                 android:focusable="false"
-                android:maxLength="20"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="noExcludeDescendants"
                 android:inputType="textEmailAddress"
+                android:maxLength="20"
                 android:paddingStart="@dimen/_12sdp"
                 android:paddingEnd="@dimen/_18sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -261,17 +260,17 @@
                 android:id="@+id/rvCharacteristics"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/etCharacteristics"
-                app:layout_constraintTop_toTopOf="@+id/etCharacteristics"
-                app:layout_constraintStart_toStartOf="@+id/etCharacteristics"
                 android:layout_marginBottom="@dimen/_6sdp"
-                android:paddingEnd="@dimen/_28sdp"
                 android:clipToPadding="false"
-                app:layout_constraintBottom_toBottomOf="@+id/etCharacteristics"
                 android:orientation="horizontal"
+                android:paddingEnd="@dimen/_28sdp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/characteristics_rv_item"
-                tools:itemCount="5"/>
+                app:layout_constraintBottom_toBottomOf="@+id/etCharacteristics"
+                app:layout_constraintEnd_toEndOf="@+id/etCharacteristics"
+                app:layout_constraintStart_toStartOf="@+id/etCharacteristics"
+                app:layout_constraintTop_toTopOf="@+id/etCharacteristics"
+                tools:itemCount="5"
+                tools:listitem="@layout/characteristics_rv_item" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvRelationship"
@@ -291,14 +290,14 @@
                 android:layout_marginHorizontal="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_36sdp"
                 android:background="@drawable/et_bg"
-                android:text="@{bean.relationship}"
-                android:imeOptions="actionDone"
-                android:maxLength="30"
                 android:focusable="false"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="noExcludeDescendants"
                 android:inputType="textEmailAddress"
+                android:maxLength="30"
                 android:paddingStart="@dimen/_12sdp"
                 android:paddingEnd="@dimen/_18sdp"
+                android:text="@{bean.relationship}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etCharacteristics" />
@@ -319,7 +318,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/etRelationship"
                 app:layout_constraintStart_toStartOf="@+id/etRelationship"
                 app:layout_constraintTop_toBottomOf="@+id/etRelationship" />
-
 
 
             <androidx.appcompat.widget.AppCompatTextView

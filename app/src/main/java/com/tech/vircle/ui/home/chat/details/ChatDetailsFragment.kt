@@ -7,16 +7,17 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tech.vircle.R
 import com.tech.vircle.base.BaseFragment
 import com.tech.vircle.base.BaseViewModel
 import com.tech.vircle.data.api.Constants
-import com.tech.vircle.data.model.AiContact
 import com.tech.vircle.data.model.Chat
 import com.tech.vircle.data.model.CreateAiData
 import com.tech.vircle.data.model.GetUserMessageData
@@ -45,7 +46,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
     private lateinit var chatAdapter: ChatAdapter
 
     // private lateinit var chatAdapter: SimpleRecyclerViewAdapter<Message, RvChatItemSimpleBinding>
-    private var displayChatList = ArrayList<Message>()
+    private var displayChatList: List<Message?> = listOf()
     private lateinit var mSocket: Socket
     private var chatMessageId = ""
     private var currentPage = 1
@@ -61,6 +62,11 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
     }
 
     override fun onCreateView(view: View) {
+        requireActivity().enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(requireActivity().findViewById(R.id.main)) { v, insets ->
+            v.setPadding(0, 0, 0, 0)
+            insets
+        }
         // click
         initOnCLick()
         // intent data
@@ -69,7 +75,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
             Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + it.contactId?.aiAvatar)
                 .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
                 .into(binding.ivPerson)
-            binding.tvName.text= it.contactId?.name
+            binding.tvName.text = it.contactId?.name
             chatMessageId = it._id.toString()
             // api call
             val data = HashMap<String, Any>()
@@ -79,10 +85,11 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
         val userDetails = arguments?.getParcelable<CreateAiData>("userAiContact")
         val chatId = arguments?.getString("chatId")
         userDetails?.let {
-            Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + userDetails.contact?.aiAvatar)
+            Glide.with(requireContext())
+                .load(Constants.MEDIA_BASE_URL + userDetails.contact?.aiAvatar)
                 .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
                 .into(binding.ivPerson)
-            binding.tvName.text= userDetails.contact?.name
+            binding.tvName.text = userDetails.contact?.name
         }
         chatId?.let {
             chatMessageId = it.toString()
@@ -130,7 +137,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
         viewModel.observeCommon.observe(viewLifecycleOwner) {
             when (it?.status) {
                 Status.LOADING -> {
-                    if (isLoading==false){
+                    if (isLoading == false) {
                         showLoading()
                     }
 
@@ -151,6 +158,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                                         } else {
                                             chatAdapter.addToListMessage(messages)
                                         }
+                                        displayChatList = messages
                                         scroll =
                                             if (currentPage == myDataModel.data.pagination?.totalPages) {
                                                 0
@@ -291,7 +299,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                     displayChatList
                 } else {
                     displayChatList.filter {
-                        it.message?.lowercase()?.contains(query) == true
+                        it?.message?.lowercase()?.contains(query) == true
                     } as ArrayList
                 }
                 chatAdapter.setList(filteredList)
@@ -324,7 +332,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
 
 
     /** socket handel **/
-    fun connectSocket() {
+    private fun connectSocket() {
         try {
             val options = IO.Options().apply {
                 extraHeaders = mapOf("token" to listOf(sharedPrefManager.getToken()))
@@ -348,10 +356,13 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                 Log.e("SOCKET", "Connection error: ${it.firstOrNull()}")
             }
 
+
+            chatOpen(chatMessageId)
+
             // Listen for messages from the server
             mSocket.on("receiveMessage") { args ->
                 val data = args[0] as JSONObject
-               var chatMessage =  Message(
+                var chatMessage = Message(
                     _id = data.optString("_id"),
                     aiContactId = data.optString("aiContactId"),
                     chatId = data.optString("chatId"),
@@ -366,7 +377,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
 
                 // Run on UI thread
                 requireActivity().runOnUiThread {
-                     chatAdapter.addToListSendMessage(listOf(chatMessage))
+                    chatAdapter.addToListSendMessage(listOf(chatMessage))
 
                     if (chatMessage.chatId?.isNotEmpty() == true) {
                         checkIsRead(chatMessage.chatId!!)
@@ -391,6 +402,22 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
         mSocket.emit("readMessage", msgJson)
     }
 
+    private fun chatOpen(chatId: String) {
+        val msgJson = JSONObject().apply {
+            put("chatId", chatId)
+
+        }
+        mSocket.emit("chat_open", msgJson)
+    }
+
+    private fun chatClose(chatId: String) {
+        val msgJson = JSONObject().apply {
+            put("chatId", chatId)
+
+        }
+        mSocket.emit("chat_close", msgJson)
+    }
+
 
     fun sendMessage(message: String, chatId: String) {
         val msgJson = JSONObject().apply {
@@ -400,7 +427,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
         mSocket.emit("send_message", msgJson)
         binding.etMessage.setText("")
         binding.etMessage.clearFocus()
-       var sentMessage = Message(
+        var sentMessage = Message(
             _id = UUID.randomUUID().toString(),
             aiContactId = "",
             chatId = chatId,
@@ -412,7 +439,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
             userId = ""
         )
         requireActivity().runOnUiThread {
-               chatAdapter.addToListSendMessage(listOf(sentMessage))
+            chatAdapter.addToListSendMessage(listOf(sentMessage))
             binding.rvChatDetails.scrollToPosition(chatAdapter.itemCount - 1)
             binding.imgTyping.visibility = View.VISIBLE
         }
@@ -431,8 +458,16 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
 
     override fun onDestroyView() {
         if (::mSocket.isInitialized) {
+            chatOpen(chatMessageId)
             mSocket.disconnect()
             Log.d("SOCKET", "disconnectSocket from server")
+        }
+
+        requireActivity().enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(requireActivity().findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
         }
         super.onDestroyView()
     }

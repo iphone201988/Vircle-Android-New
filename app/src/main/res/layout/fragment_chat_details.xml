@@ -14,25 +14,33 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/main"
         android:background="@color/light_mode_background"
         tools:context=".ui.home.chat.details.ChatDetailsFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clChatDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_ECECEC"
-            android:paddingBottom="@dimen/_5sdp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingVertical="@dimen/_5sdp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_10sdp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -54,7 +62,7 @@
                     android:id="@+id/ivPerson"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
+
                     android:onClick="@{v->vm.onClick(v)}"
                     android:src="@drawable/profilephoto"
                     android:scaleType="centerCrop"
@@ -174,81 +182,88 @@
 
         <com.nabilmh.lottieswiperefreshlayout.LottieSwipeRefreshLayout
             android:id="@+id/ssPullRefresh"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:indicator_overlay="false"
-            app:layout_constraintBottom_toTopOf="@+id/imgTyping"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_rawRes="@raw/refresh"
             app:layout_constraintTop_toBottomOf="@+id/clChatDetails"
-            app:lottie_rawRes="@raw/refresh">
+            app:layout_constraintBottom_toTopOf="@+id/imgTyping"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvChatDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="14"
-            tools:listitem="@layout/rv_chat_details_item" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChatDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/_10sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="14"
+                tools:listitem="@layout/rv_chat_details_item" />
 
         </com.nabilmh.lottieswiperefreshlayout.LottieSwipeRefreshLayout>
+        <!-- Empty state -->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvEmpty"
             style="@style/TextView.bold"
-            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
             android:text="Not yet message!"
             android:textSize="@dimen/_13ssp"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Typing indicator -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgTyping"
             android:layout_width="98dp"
             android:layout_height="32dp"
             android:layout_marginBottom="@dimen/_12sdp"
-             android:visibility="gone"
+            android:visibility="gone"
             android:src="@drawable/typing_dots"
             app:layout_constraintBottom_toTopOf="@+id/clSendMessage"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-      />
+            app:layout_constraintEnd_toEndOf="parent" />
 
-
-
+        <!-- Input bar -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clSendMessage"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_43sdp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_12sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:background="@drawable/et_bg"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
-
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etMessage"
                 style="@style/EditText"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/_43sdp"
+                android:maxHeight="@dimen/_60sdp"
                 android:hint="@string/search_in_chat"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="noExcludeDescendants"
-                android:inputType="textPersonName"
+                android:inputType="textMultiLine|textCapSentences"
+                android:scrollbars="vertical"
+                android:overScrollMode="always"
                 android:paddingStart="@dimen/_12sdp"
+                android:ellipsize="none"
+                android:singleLine="false"
+                android:gravity="top|start"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ivSend"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/ivSend" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivSend"
@@ -258,12 +273,12 @@
                 android:padding="@dimen/_5sdp"
                 android:onClick="@{v->vm.onClick(v)}"
                 android:src="@drawable/message_send"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

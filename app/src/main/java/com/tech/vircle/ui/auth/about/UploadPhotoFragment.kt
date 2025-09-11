@@ -101,7 +101,11 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                                 if (myDataModel != null) {
                                     showSuccessToast(it.message.toString())
                                     if (myDataModel.data != null) {
-                                        sharedPrefManager.setLoginData(myDataModel.data)
+                                        myDataModel.data.user?.let { it1 ->
+                                            sharedPrefManager.setLoginData(
+                                                it1
+                                            )
+                                        }
                                         sharedPrefManager.setToken(myDataModel.data.token)
                                     }
                                     BindingUtils.navigateWithSlide(
@@ -178,7 +182,7 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                         data["definedAvatar"] = selectedAvatar.toString().toRequestBody()
 
                         viewModel.completeRegistration(
-                            Constants.USER_COMPLETE_REGISTER + "/${sharedPrefManager.getLoginData()?.user?._id}",
+                            Constants.USER_COMPLETE_REGISTER + "/${sharedPrefManager.getLoginData()?._id}",
                             data,
                             multipartPart
                         )
@@ -328,7 +332,7 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
     }
 
     /*** camera launcher ***/
-    private val resultLauncherCamera =
+/*    private val resultLauncherCamera =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 if (photoFile2?.exists() == true) {
@@ -347,7 +351,32 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
                     }
                 }
             }
+        }*/
+
+    /*** camera launcher ***/
+    private val resultLauncherCamera =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                if (photoFile2?.exists() == true) {
+                    photoURI?.let { uri ->
+                        lifecycleScope.launch {
+                            try {
+                                Glide.with(requireActivity())
+                                    .load(uri) // ✅ use content:// uri
+                                    .centerCrop()
+                                    .into(binding.ivPerson)
+
+                                multipartPart = convertMultipartPart(requireActivity(), uri)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                showErrorToast("Compression fail")
+                            }
+                        }
+                    }
+                }
+            }
         }
+
 
     /*** convert image in multipart ***/
     private fun convertMultipartPart(imageUri: Uri): MultipartBody.Part? {
@@ -359,6 +388,30 @@ class UploadPhotoFragment : BaseFragment<FragmentUploadPhotoBinding>() {
         val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("avatar", file.name, requestFile)
     }
+
+    /*** convert image in multipart ***/
+    private fun convertMultipartPart(context: Context, imageUri: Uri): MultipartBody.Part? {
+        return try {
+            // Open input stream from content resolver
+            val inputStream = context.contentResolver.openInputStream(imageUri) ?: return null
+
+            // Create a temp file to copy data
+            val tempFile = File(context.cacheDir, "upload_${System.currentTimeMillis()}.jpg")
+            val outputStream = FileOutputStream(tempFile)
+            inputStream.copyTo(outputStream)
+            inputStream.close()
+            outputStream.close()
+
+            // Create multipart from the temp file
+            val requestFile = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("avatar", tempFile.name, requestFile)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 
     private fun convertMultipartPartGal(imageUri: Uri): MultipartBody.Part {
         val file = FileUtil.getTempFile(requireActivity(), imageUri)

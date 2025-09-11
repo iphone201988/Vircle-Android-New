@@ -19,13 +19,13 @@ class SharedPrefManager @Inject constructor(private val sharedPreferences: Share
     private val gson = Gson()
 
     // ---------------------- User Data ---------------------- //
-    fun setLoginData(data: UserRegistrationData) {
+    fun setLoginData(data: ProfileUser) {
         sharedPreferences.edit().putString(KEY.USER_DATA, gson.toJson(data)).apply()
     }
 
-    fun getLoginData(): UserRegistrationData? {
+    fun getLoginData(): ProfileUser? {
         val json = sharedPreferences.getString(KEY.USER_DATA, null)
-        return json?.let { gson.fromJson(it, UserRegistrationData::class.java) }
+        return json?.let { gson.fromJson(it, ProfileUser::class.java) }
     }
     // ---------------------- Profile Data ---------------------- //
     fun setProfileData(data: ProfileUser?) {

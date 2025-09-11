@@ -37,7 +37,7 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://52.200.106.168:8000/api/v1/\"")
             //buildConfigField("String", "BASE_URL", "\"http://192.168.1.5:8000/api/v1/\"")
             buildConfigField("String", "SOCKET_URL", "\"https://52.200.106.168:8000\"")
-            buildConfigField("String", "MEDIA_BASE_URL", "\"https://52.200.106.168:8000/\"")
+            buildConfigField("String", "MEDIA_BASE_URL", "\"https://vircle.s3.us-east-1.amazonaws.com/\"")
         }
         release {
             buildConfigField("String", "API_KEY", "\"bcf11eff790149b4a011928607eeed26\"")

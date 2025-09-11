@@ -53,7 +53,11 @@ class SignupFragment : BaseFragment<FragmentSignupBinding>() {
                                     BindingUtils.parseJson(it.data.toString())
                                 if (myDataModel != null) {
                                     if (myDataModel.data != null) {
-                                        sharedPrefManager.setLoginData(myDataModel.data)
+                                        myDataModel.data.user?.let { it1 ->
+                                            sharedPrefManager.setLoginData(
+                                                it1
+                                            )
+                                        }
                                     }
                                     BindingUtils.navigateWithSlide(
                                         findNavController(), R.id.navigateToAboutFragment, null

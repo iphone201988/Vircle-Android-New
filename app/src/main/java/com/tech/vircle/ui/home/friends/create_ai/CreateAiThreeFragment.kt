@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 import com.tech.vircle.BR
 import com.tech.vircle.R
 import com.tech.vircle.base.BaseFragment
@@ -459,9 +460,15 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                             }else{
                                 data["at"] = finalTime.toRequestBody()
                             }
+
                         }
 
+                        if(binding.etOn.text.toString().trim().isNotEmpty()) {
+                            data["on"] = binding.etOn.text.toString().trim().toRequestBody()
+                        }
                         data["wantToHear"] = binding.etWhatDo.text.toString().trim().toRequestBody()
+
+                        Log.i("qwf", Gson().toJson(data))
                         if (apiCallType == 1) {
                             data["type"] = type.toString().toRequestBody()
                             viewModel.createAiContactApi(Constants.AI_CONTACT_ADD, data)

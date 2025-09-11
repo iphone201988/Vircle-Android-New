@@ -1,7 +1,10 @@
 package com.tech.vircle.ui.auth
 
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -41,12 +44,21 @@ class AuthActivity : BaseActivity<ActivityAuthBinding>() {
         if (sharedPrefManager.isDarkModeEnabled()) {
             (application as App).setDarkMode(true)
         }
+        enableEdgeToEdge()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+
+
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 navController.graph =
                     navController.navInflater.inflate(R.navigation.auth_navigation).apply {
                         if (sharedPrefManager.getLoginData() != null) {
-                            if (sharedPrefManager.getLoginData()?.user?.isOnboard == true) {
+                            if (sharedPrefManager.getLoginData()?.isOnboard == true) {
                                 setStartDestination(R.id.fragmentAbout)
                             } else {
                                 setStartDestination(R.id.fragmentFriends)

@@ -32,7 +32,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_F7F7F17"
-            android:paddingVertical="@dimen/_8sdp"
             android:paddingHorizontal="@dimen/_40sdp"
             app:itemActiveIndicatorStyle="@android:color/transparent"
             app:itemHorizontalTranslationEnabled="false"

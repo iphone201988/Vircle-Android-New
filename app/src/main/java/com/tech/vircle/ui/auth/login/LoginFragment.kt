@@ -78,7 +78,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                                     BindingUtils.parseJson(it.data.toString())
                                 if (myDataModel != null) {
                                     if (myDataModel.data != null) {
-                                        sharedPrefManager.setLoginData(myDataModel.data)
+                                        myDataModel.data.user?.let { it1 ->
+                                            sharedPrefManager.setLoginData(
+                                                it1
+                                            )
+                                        }
                                         sharedPrefManager.setToken(myDataModel.data.token)
                                     }
                                     if (myDataModel.data?.user?.isOnboard == true) {
@@ -109,7 +113,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                                 if (myDataModel != null) {
                                     if (myDataModel.data != null) {
                                         sharedPrefManager.setToken(myDataModel.data.token)
-                                        sharedPrefManager.setLoginData(myDataModel.data)
+                                        myDataModel.data.user?.let { it1 ->
+                                            sharedPrefManager.setLoginData(
+                                                it1
+                                            )
+                                        }
                                     }
                                     if (myDataModel.data?.user?.isOnboard == true) {
                                         findNavController().popBackStack(R.id.auth_navigation, true)

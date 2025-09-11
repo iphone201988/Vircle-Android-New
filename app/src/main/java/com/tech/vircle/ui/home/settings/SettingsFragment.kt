@@ -1,7 +1,10 @@
 package com.tech.vircle.ui.home.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +23,9 @@ import com.tech.vircle.utils.BaseCustomDialog
 import com.tech.vircle.utils.BindingUtils
 import com.tech.vircle.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
@@ -94,6 +100,28 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
 
                             } catch (e: Exception) {
                                 Log.e("error", "logoutApi: $e")
+                            } finally {
+                                hideLoading()
+                            }
+                        }
+
+                        "updateProfileApi" -> {
+                            try {
+                                val myDataModel: GetUserprofileResponse? =
+                                    BindingUtils.parseJson(it.data.toString())
+                                if (myDataModel != null) {
+                                    showSuccessToast(myDataModel.message.toString())
+                                    if (myDataModel.data != null) {
+                                        sharedPrefManager.setProfileData(myDataModel.data.user)
+                                        myDataModel.data.user?.let { it1 ->
+                                            sharedPrefManager.setLoginData(
+                                                it1
+                                            )
+                                        }
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                Log.e("error", "updateProfileApi: $e")
                             } finally {
                                 hideLoading()
                             }
@@ -180,21 +208,49 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                         }
 
                         3 -> {
-
+                            val url = "https://52.200.106.168/privacypolicy"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            intent.resolveActivity(requireActivity().packageManager)?.let {
+                                requireActivity().startActivity(intent)
+                            } ?: run {
+                                Toast.makeText(
+                                    context,
+                                    "No application can handle this request",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
 
                         4 -> {
-
+                            val url = "https://52.200.106.168/privacypolicy"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            intent.resolveActivity(requireActivity().packageManager)?.let {
+                                requireActivity().startActivity(intent)
+                            } ?: run {
+                                Toast.makeText(
+                                    context,
+                                    "No application can handle this request",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
 
                         5 -> {
-
+                            val url = "https://52.200.106.168/privacypolicy"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            intent.resolveActivity(requireActivity().packageManager)?.let {
+                                requireActivity().startActivity(intent)
+                            } ?: run {
+                                Toast.makeText(
+                                    context,
+                                    "No application can handle this request",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
 
                         6 -> {
-                            BindingUtils.navigateWithSlide(
-                                findNavController(), R.id.navigateToPlansFragment, null
-                            )
+
                         }
                     }
                 }
@@ -210,8 +266,17 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                         }
 
                         "Notifications" -> {
-                            showInfoToast("Notifications ${if (isChecked) "enabled" else "disabled"}")
+                            val data = HashMap<String, RequestBody>()
+                            // send notification as plain text
+                            data["notification"] = isChecked.toString()
+                                .toRequestBody("text/plain".toMediaTypeOrNull())
+
+                            viewModel.updateProfileApi(
+                                Constants.USER_UPDATE_PROFILE, data, null
+                            )
                         }
+
+
                     }
 
                 }
@@ -228,7 +293,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
                 "Dark Mode", 2, darkMode
             ),
             ProfileModelClass(
-                "Notifications", 2
+                "Notifications", 2, sharedPrefManager.getLoginData()?.notification!!
             ),
             ProfileModelClass(
                 "Change Password", 1

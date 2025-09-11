@@ -55,7 +55,7 @@
     <string name="let_s_start">Let’s Start</string>
     <string name="i_accept_the">"I accept the "</string>
     <string name="terms_conditions_and_privacy_policy"><![CDATA[Terms & Conditions and Privacy Policy]]></string>
-    <string name="choose_from_library">choose from library</string>
+    <string name="choose_from_library">Choose From Library</string>
     <string name="forget_your_npassword">Forget Your \nPassword</string>
     <string name="enter_your_email_and_we_ll_send_you_a_nlink_to_reset_your_password">Enter your email and we’ll send you a \nlink to reset your password.</string>
     <string name="we_ve_sent_you_a_6_digit_code">We’ve sent you a 6-digit code</string>

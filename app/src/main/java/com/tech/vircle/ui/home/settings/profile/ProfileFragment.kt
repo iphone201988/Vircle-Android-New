@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
@@ -49,6 +50,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Locale
 
@@ -80,6 +82,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         initCharacteristicsAdapter()
         // api call
         viewModel.getProfileApi(Constants.USER_GET_PROFILE)
+
+        binding.etPersonalDetails.setOnTouchListener { v, event ->
+            v.parent.requestDisallowInterceptTouchEvent(true)
+            if ((event.action and MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                v.parent.requestDisallowInterceptTouchEvent(false)
+            }
+            false
+        }
+
     }
 
     /** api response observer ***/
@@ -378,30 +389,51 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    /*** camera launcher ***/
     private val resultLauncherCamera =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 if (photoFile2?.exists() == true) {
-                    val imagePath = photoFile2?.absolutePath.toString()
-                    val imageUri = imagePath.toUri()
+                    photoURI?.let { uri ->
+                        lifecycleScope.launch {
+                            try {
+                                Glide.with(requireActivity())
+                                    .load(uri) // ✅ use content:// uri
+                                    .centerCrop()
+                                    .into(binding.ivPerson)
 
-                    lifecycleScope.launch {
-                        try {
-                            Glide.with(requireActivity())
-                                .load(imageUri)
-                                .centerCrop()
-                                .into(binding.ivPerson)
-                       //     binding.ivPerson.setImageURI(imageUri)
-                            multipartPart = convertMultipartPart(imageUri)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            showErrorToast("Compression fail")
+                                multipartPart = convertMultipartPart(requireActivity(), uri)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                showErrorToast("Compression fail")
+                            }
                         }
                     }
                 }
             }
         }
+
+    /*** convert image in multipart ***/
+    private fun convertMultipartPart(context: Context, imageUri: Uri): MultipartBody.Part? {
+        return try {
+            // Open input stream from content resolver
+            val inputStream = context.contentResolver.openInputStream(imageUri) ?: return null
+
+            // Create a temp file to copy data
+            val tempFile = File(context.cacheDir, "upload_${System.currentTimeMillis()}.jpg")
+            val outputStream = FileOutputStream(tempFile)
+            inputStream.copyTo(outputStream)
+            inputStream.close()
+            outputStream.close()
+
+            // Create multipart from the temp file
+            val requestFile = tempFile.asRequestBody("image/*".toMediaTypeOrNull())
+            MultipartBody.Part.createFormData("avatar", tempFile.name, requestFile)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 
     /*** convert image in multipart ***/
     private fun convertMultipartPart(imageUri: Uri): MultipartBody.Part? {

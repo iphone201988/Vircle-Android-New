@@ -10,20 +10,10 @@ data class UserRegistrationResponse(
 )
 
 data class UserRegistrationData(
-    val token: String?, val user: User?
+    val token: String?, val user: ProfileUser?
 )
 
-data class User(
-    val _id: String?,
-    val age: Int?,
-    val avatar: String?,
-    val createdAt: String?,
-    val email: String?,
-    val gender: String?,
-    val isOnboard: Boolean?,
-    val name: String?,
-    val updatedAt: String?
-)
+
 
 data class ForgotPasswordResponse(
     val message: String?, val success: Boolean?, val userId: String?
@@ -47,6 +37,7 @@ data class ProfileUser(
     val email: String?,
     val gender: String?,
     val isOnboard: Boolean?,
+    val notification: Boolean?,
     val name: String?,
     val personal_details: String?,
     val surname: String?,
@@ -126,7 +117,9 @@ data class ContactList(
     val type: String?,
     val updatedAt: String?,
     val userId: String?,
-    val wantToHear: String?
+    val wantToHear: String?,
+    val totalTimeSpent: Int?,
+    val totalMessages: Int?
 ) : Parcelable
 
 

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.app.ActivityCompat
@@ -44,6 +45,26 @@ object BindingUtils {
         }
     }
 
+
+    @JvmStatic
+    @BindingAdapter("setTimeSpent")
+    fun setTimeSpent(textView: TextView, totalMinutes: Int?) {
+        totalMinutes?.let {
+            textView.text = if (it < 60) {
+                "$it min"
+            } else {
+                val hours = it / 60
+                val minutes = it % 60
+                if (minutes == 0) {
+                    "$hours hr"
+                } else {
+                    "$hours hr $minutes min"
+                }
+            }
+        } ?: run {
+            textView.text = "0 min"
+        }
+    }
 
 
     inline fun <reified T> parseJson(json: String): T? {
