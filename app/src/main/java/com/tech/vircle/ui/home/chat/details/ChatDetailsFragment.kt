@@ -19,9 +19,11 @@ import com.tech.vircle.base.BaseFragment
 import com.tech.vircle.base.BaseViewModel
 import com.tech.vircle.data.api.Constants
 import com.tech.vircle.data.model.Chat
+import com.tech.vircle.data.model.ChatSearchResponse
 import com.tech.vircle.data.model.CreateAiData
 import com.tech.vircle.data.model.GetUserMessageData
 import com.tech.vircle.data.model.Message
+import com.tech.vircle.data.model.SearchMessage
 import com.tech.vircle.databinding.FragmentChatDetailsBinding
 import com.tech.vircle.ui.home.chat.ChatFragmentVM
 import com.tech.vircle.ui.home.chat.adpter.ChatAdapter
@@ -52,7 +54,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
     private var currentPage = 1
     private var scroll: Int = 1
     private var isLoading = false
-
+    var limit24:String?=null
     override fun getLayoutResource(): Int {
         return R.layout.fragment_chat_details
     }
@@ -71,6 +73,17 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
         initOnCLick()
         // intent data
         val chat: Chat? = arguments?.getParcelable("chat")
+        val chat_search: String? = arguments?.getString("chat_search")
+
+        val myDataModel: SearchMessage? =
+            BindingUtils.parseJson(chat_search.toString())
+        myDataModel?.chatInfo?.contactId.let {
+            Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + it?.aiAvatar)
+                .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
+                .into(binding.ivPerson)
+            binding.tvName.text = it?.name
+            chatMessageId = it?._id.toString()
+        }
         chat?.let {
             Glide.with(requireContext()).load(Constants.MEDIA_BASE_URL + it.contactId?.aiAvatar)
                 .placeholder(R.drawable.profilephoto).error(R.drawable.profilephoto)
@@ -95,14 +108,20 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
             chatMessageId = it.toString()
             val data = HashMap<String, Any>()
             data["page"] = currentPage
+            limit24 = arguments?.getString("limit")
+            limit24?.let {
+                isComeFromSearch=true
+                data["limit"] = limit24.toString()
+            }
             viewModel.getChatDetailsApi(Constants.GET_CHATS_MESSAGES + "/${it}", data)
         }
+
 
 
         // adapter
 //        chatAdapter = MessageAdapter()
 //        binding.rvChatDetails.adapter = chatAdapter
-        chatAdapter = ChatAdapter()
+        chatAdapter = ChatAdapter(binding.rvChatDetails)
         binding.rvChatDetails.adapter = chatAdapter
         initChatAdapter()
         // observer
@@ -122,6 +141,10 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                     // api call
                     val data = HashMap<String, Any>()
                     data["page"] = currentPage
+                    limit24?.let {
+                        data["limit"] = limit24.toString()
+                    }
+
                     viewModel.getChatDetailsApi(
                         Constants.GET_CHATS_MESSAGES + "/${chatId}", data
                     )
@@ -132,6 +155,7 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
 
     }
 
+    var isComeFromSearch:Boolean=false
     /** api response observer ***/
     private fun initObserver() {
         viewModel.observeCommon.observe(viewLifecycleOwner) {
@@ -154,7 +178,14 @@ class ChatDetailsFragment : BaseFragment<FragmentChatDetailsBinding>() {
                                         val messages = myDataModel.data.messages ?: emptyList()
                                         if (currentPage == 1) {
                                             chatAdapter.setList(messages.reversed())
-                                            binding.rvChatDetails.scrollToPosition(chatAdapter.itemCount - 1)
+                                            if(isComeFromSearch){
+                                                isComeFromSearch=false
+                                                binding.rvChatDetails.scrollToPosition(0)
+                                            }
+                                            else{
+                                                binding.rvChatDetails.scrollToPosition(chatAdapter.itemCount - 1)
+                                            }
+
                                         } else {
                                             chatAdapter.addToListMessage(messages)
                                         }

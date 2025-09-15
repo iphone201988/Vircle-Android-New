@@ -78,6 +78,10 @@ class CreateAiFourFragment : BaseFragment<FragmentCreateAiFourBinding>() {
             userId = userDetails.contact?._id
             userChatId = userDetails.chatId
             aiContact = userDetails
+            Glide.with(requireContext())
+                .load(Constants.MEDIA_BASE_URL +  aiContact.contact?.aiAvatar)
+                .placeholder(R.drawable.profilephoto)
+                .error(R.drawable.profilephoto).into(binding.ivPerson)
         }
     }
 

@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tech.vircle.R
 import com.tech.vircle.data.model.Message
 import com.tech.vircle.utils.BindingUtils
 
 class ChatAdapter(
+    var recyclerView: RecyclerView
 ) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     private var itemList: MutableList<Message?> = ArrayList()
@@ -67,7 +69,6 @@ class ChatAdapter(
     }
 
 
-
     override fun getItemCount() = itemList.size
 
 
@@ -105,7 +106,7 @@ class ChatAdapter(
         if (newDataList != null) {
             itemList.addAll(0, newDataList.reversed())
         }
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, newDataList?.size ?: 0)
     }
 
 
@@ -117,10 +118,16 @@ class ChatAdapter(
             notifyItemRangeInserted(
                 initialSize, newDataList.size
             )
+            val linearLayoutManager = recyclerView.layoutManager as? LinearLayoutManager
+            linearLayoutManager?.let {
+                val firstVisible = it.findFirstVisibleItemPosition()
+                val firstView = it.findViewByPosition(firstVisible)
+                val offset = firstView?.top ?: 0
+                it.scrollToPositionWithOffset(firstVisible + newDataList.size, offset)
+            }
 
         }
     }
-
 
 
 }

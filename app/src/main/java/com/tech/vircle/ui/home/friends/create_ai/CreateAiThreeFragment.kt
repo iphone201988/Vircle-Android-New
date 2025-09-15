@@ -128,7 +128,7 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
         }
 
 
-        val contactData = arguments?.getParcelable<AiContactList>("SecondTypeData")
+        contactData = arguments?.getParcelable<AiContactList>("SecondTypeData")
         contactData?.let { itData ->
             binding.apply {
                 etName.setText(itData.name.orEmpty())
@@ -148,6 +148,8 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
         // initObserver
         initObserver()
     }
+
+    var contactData: AiContactList? = null
 
     /**
      * api response observer
@@ -169,7 +171,7 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                                     if (myDataModel.data != null) {
                                         showSuccessToast(myDataModel.message.toString())
                                         val bundle = Bundle()
-                                        bundle.putParcelable("userDetails",myDataModel.data)
+                                        bundle.putParcelable("userDetails", myDataModel.data)
                                         BindingUtils.navigateWithSlide(
                                             findNavController(),
                                             R.id.navigateToCreateAiContactFourFragment,
@@ -309,6 +311,10 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                             binding.etRelationship.text.toString().trim().toRequestBody()
                         data["description"] =
                             binding.etOtherDetails.text.toString().trim().toRequestBody()
+                        if (contactData != null) {
+                            data["definedAvatar"] = contactData?.aiAvatar.toString().toRequestBody()
+                        }
+
 
                         val canYou = binding.etCanText.text.toString().trim()
                         if (canYou.isNotEmpty()) {
@@ -379,35 +385,35 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                                 val key = onData.toOrdinalKey()
                                 data["at"] = key.toRequestBody()
                                 when (onData) {
-                                /*   "1st" -> data["at"] = "1st".toRequestBody()
-                                    "2st" -> data["at"] = "2nd".toRequestBody()
-                                    "3st" -> data["at"] = "3rd".toRequestBody()
-                                    "4st" -> data["at"] = "4th".toRequestBody()
-                                    "5st" -> data["at"] = "5th".toRequestBody()
-                                    "6st" -> data["at"] = "6th".toRequestBody()
-                                    "7st" -> data["at"] = "7th".toRequestBody()
-                                    "8st" -> data["at"] = "8th".toRequestBody()
-                                    "9st" -> data["at"] = "9th".toRequestBody()
-                                    "10st" -> data["at"] = "10th".toRequestBody()
-                                    "11st" -> data["at"] = "11th".toRequestBody()
-                                    "12st" -> data["at"] = "12th".toRequestBody()
-                                    "13st" -> data["at"] = "13th".toRequestBody()
-                                    "14st" -> data["at"] = "14th".toRequestBody()
-                                    "15st" -> data["at"] = "15th".toRequestBody()
-                                    "16st" -> data["at"] = "16th".toRequestBody()
-                                    "17st" -> data["at"] = "17th".toRequestBody()
-                                    "18st" -> data["at"] = "18th".toRequestBody()
-                                    "19st" -> data["at"] = "19th".toRequestBody()
-                                    "20st" -> data["at"] = "20th".toRequestBody()
-                                    "21st" -> data["at"] = "21st".toRequestBody()
-                                    "22st" -> data["at"] = "22nd".toRequestBody()
-                                    "23st" -> data["at"] = "23rd".toRequestBody()
-                                    "24st" -> data["at"] = "24th".toRequestBody()
-                                    "25st" -> data["at"] = "25th".toRequestBody()
-                                    "26st" -> data["at"] = "26th".toRequestBody()
-                                    "27st" -> data["at"] = "27th".toRequestBody()
-                                    "28st" -> data["at"] = "28th".toRequestBody()
-                                    "Last day of month" -> data["at"] = "Last day of month".toRequestBody()*/
+                                    /*   "1st" -> data["at"] = "1st".toRequestBody()
+                                        "2st" -> data["at"] = "2nd".toRequestBody()
+                                        "3st" -> data["at"] = "3rd".toRequestBody()
+                                        "4st" -> data["at"] = "4th".toRequestBody()
+                                        "5st" -> data["at"] = "5th".toRequestBody()
+                                        "6st" -> data["at"] = "6th".toRequestBody()
+                                        "7st" -> data["at"] = "7th".toRequestBody()
+                                        "8st" -> data["at"] = "8th".toRequestBody()
+                                        "9st" -> data["at"] = "9th".toRequestBody()
+                                        "10st" -> data["at"] = "10th".toRequestBody()
+                                        "11st" -> data["at"] = "11th".toRequestBody()
+                                        "12st" -> data["at"] = "12th".toRequestBody()
+                                        "13st" -> data["at"] = "13th".toRequestBody()
+                                        "14st" -> data["at"] = "14th".toRequestBody()
+                                        "15st" -> data["at"] = "15th".toRequestBody()
+                                        "16st" -> data["at"] = "16th".toRequestBody()
+                                        "17st" -> data["at"] = "17th".toRequestBody()
+                                        "18st" -> data["at"] = "18th".toRequestBody()
+                                        "19st" -> data["at"] = "19th".toRequestBody()
+                                        "20st" -> data["at"] = "20th".toRequestBody()
+                                        "21st" -> data["at"] = "21st".toRequestBody()
+                                        "22st" -> data["at"] = "22nd".toRequestBody()
+                                        "23st" -> data["at"] = "23rd".toRequestBody()
+                                        "24st" -> data["at"] = "24th".toRequestBody()
+                                        "25st" -> data["at"] = "25th".toRequestBody()
+                                        "26st" -> data["at"] = "26th".toRequestBody()
+                                        "27st" -> data["at"] = "27th".toRequestBody()
+                                        "28st" -> data["at"] = "28th".toRequestBody()
+                                        "Last day of month" -> data["at"] = "Last day of month".toRequestBody()*/
                                 }
                             }
                         }
@@ -445,8 +451,9 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                                 }
                                 "$time$suffix"
                             }
-                            if (time.contains("Random")){
-                                val randomList = DummyList.addTimeList().filter { it.category != "Random" }
+                            if (time.contains("Random")) {
+                                val randomList =
+                                    DummyList.addTimeList().filter { it.category != "Random" }
                                 val randomItem = randomList.random()
                                 val randomTime = randomItem.category
                                 val hour = time.substringBefore(":").toIntOrNull() ?: 0
@@ -457,13 +464,13 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
                                 }
                                 val finalRandomTime = randomTime + suffix
                                 data["at"] = finalRandomTime.toRequestBody()
-                            }else{
+                            } else {
                                 data["at"] = finalTime.toRequestBody()
                             }
 
                         }
 
-                        if(binding.etOn.text.toString().trim().isNotEmpty()) {
+                        if (binding.etOn.text.toString().trim().isNotEmpty()) {
                             data["on"] = binding.etOn.text.toString().trim().toRequestBody()
                         }
                         data["wantToHear"] = binding.etWhatDo.text.toString().trim().toRequestBody()
@@ -763,98 +770,98 @@ class CreateAiThreeFragment : BaseFragment<FragmentCreateAiThreeBinding>() {
             9 -> DummyList.addWantToHearList()
             else -> DummyList.addGenderList()
         }.apply {
-                when (type) {
-                    1 -> {
-                        val selectedAge = binding.etAge.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectedAge.isNotEmpty() && item.category.equals(
-                                selectedAge, ignoreCase = true
-                            )
-                        }
+            when (type) {
+                1 -> {
+                    val selectedAge = binding.etAge.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectedAge.isNotEmpty() && item.category.equals(
+                            selectedAge, ignoreCase = true
+                        )
+                    }
+                }
+
+                2 -> {
+                    val selectedGender = binding.etGender.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectedGender.isNotEmpty() && item.category.equals(
+                            selectedGender, ignoreCase = true
+                        )
+                    }
+                }
+
+                3 -> {
+                    val selectedExpert = binding.etExpert.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectedExpert.isNotEmpty() && item.category.equals(
+                            selectedExpert, ignoreCase = true
+                        )
+                    }
+                }
+
+                4 -> {
+                    forEach { item ->
+                        item.isStatus = selectedCharacteristics.contains(item.category)
+                    }
+                }
+
+                5 -> {
+                    val selectRelationship = binding.etRelationship.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectRelationship.isNotEmpty() && item.category.equals(
+                            selectRelationship, ignoreCase = true
+                        )
+                    }
+                }
+
+                6 -> {
+                    val selectCanText = binding.etCanText.text.toString().trim()
+                    val canYouData = when (selectCanText) {
+                        "Daily", "Day" -> "Day"
+                        "Weekly", "Week" -> "Week"
+                        "Monthly", "Month" -> "Month"
+                        "Never", "No Schedule" -> "No Schedule"
+                        else -> "Day"
                     }
 
-                    2 -> {
-                        val selectedGender = binding.etGender.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectedGender.isNotEmpty() && item.category.equals(
-                                selectedGender, ignoreCase = true
-                            )
-                        }
+
+                    forEach { item ->
+                        item.isStatus = canYouData.isNotEmpty() && item.category.contains(
+                            canYouData,
+                            ignoreCase = true
+                        )
                     }
+                }
 
-                    3 -> {
-                        val selectedExpert = binding.etExpert.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectedExpert.isNotEmpty() && item.category.equals(
-                                selectedExpert, ignoreCase = true
-                            )
-                        }
+                7 -> {
+                    val selectOn = binding.etOn.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectOn.isNotEmpty() && item.category.equals(
+                            selectOn, ignoreCase = true
+                        )
                     }
+                }
 
-                    4 -> {
-                        forEach { item ->
-                            item.isStatus = selectedCharacteristics.contains(item.category)
-                        }
+                8 -> {
+                    val selectAt = binding.etAt.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectAt.isNotEmpty() && item.category.equals(
+                            selectAt, ignoreCase = true
+                        )
                     }
+                }
 
-                    5 -> {
-                        val selectRelationship = binding.etRelationship.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectRelationship.isNotEmpty() && item.category.equals(
-                                selectRelationship, ignoreCase = true
-                            )
-                        }
+                9 -> {
+                    val selectWhatDo = binding.etWhatDo.text.toString().trim()
+                    forEach { item ->
+                        item.isStatus = selectWhatDo.isNotEmpty() && item.category.equals(
+                            selectWhatDo, ignoreCase = true
+                        )
                     }
-
-                    6 -> {
-                        val selectCanText = binding.etCanText.text.toString().trim()
-                        val canYouData = when (selectCanText) {
-                            "Daily", "Day" -> "Day"
-                            "Weekly", "Week" -> "Week"
-                            "Monthly", "Month" -> "Month"
-                            "Never", "No Schedule" -> "No Schedule"
-                            else -> "Day"
-                        }
-
-
-                        forEach { item ->
-                            item.isStatus = canYouData.isNotEmpty() && item.category.contains(
-                                canYouData,
-                                ignoreCase = true
-                            )
-                        }
-                    }
-
-                    7 -> {
-                        val selectOn = binding.etOn.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectOn.isNotEmpty() && item.category.equals(
-                                selectOn, ignoreCase = true
-                            )
-                        }
-                    }
-
-                    8 -> {
-                        val selectAt = binding.etAt.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectAt.isNotEmpty() && item.category.equals(
-                                selectAt, ignoreCase = true
-                            )
-                        }
-                    }
-
-                    9 -> {
-                        val selectWhatDo = binding.etWhatDo.text.toString().trim()
-                        forEach { item ->
-                            item.isStatus = selectWhatDo.isNotEmpty() && item.category.equals(
-                                selectWhatDo, ignoreCase = true
-                            )
-                        }
-                    }
-
                 }
 
             }
+
+        }
         commonBottomSheet?.binding?.rvCommon?.adapter = commonAdapter
     }
 

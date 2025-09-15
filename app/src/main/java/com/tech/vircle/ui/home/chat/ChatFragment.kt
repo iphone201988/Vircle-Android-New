@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.tech.vircle.BR
 import com.tech.vircle.R
 import com.tech.vircle.base.BaseFragment
@@ -30,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 
 @AndroidEntryPoint
 class ChatFragment : BaseFragment<FragmentChatBinding>(),
@@ -55,7 +57,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(),
         // observer
         initObserver()
         // api call
-          viewModel.getChatApi(Constants.GET_CHATS)
+        viewModel.getChatApi(Constants.GET_CHATS)
         // adapter
         initChatSearchAdapter()
     }
@@ -105,33 +107,34 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(),
                                 if (myDataModel != null) {
                                     if (myDataModel.data != null) {
                                         if (!myDataModel.data.messages.isNullOrEmpty()) {
-                                            binding.rvChatSearch.visibility=View.VISIBLE
-                                            binding.rvChat.visibility=View.GONE
+                                            binding.rvChatSearch.visibility = View.VISIBLE
+                                            binding.rvChat.visibility = View.GONE
                                             messageSearchAdapter.setList(myDataModel.data.messages)
                                             binding.tvEmpty.visibility = View.GONE
                                         } else if (!myDataModel.data.AiContacts.isNullOrEmpty()) {
-                                            binding.rvChatSearch.visibility=View.GONE
-                                            binding.rvChat.visibility=View.VISIBLE
-                                            fullChatList = myDataModel.data.AiContacts as ArrayList<Chat>
+                                            binding.rvChatSearch.visibility = View.GONE
+                                            binding.rvChat.visibility = View.VISIBLE
+                                            fullChatList =
+                                                myDataModel.data.AiContacts as ArrayList<Chat>
                                             customChatAdapter.setList(fullChatList)
                                             binding.tvEmpty.visibility = View.GONE
                                         } else {
-                                            binding.rvChatSearch.visibility=View.GONE
-                                            binding.rvChat.visibility=View.VISIBLE
+                                            binding.rvChatSearch.visibility = View.GONE
+                                            binding.rvChat.visibility = View.VISIBLE
                                             fullChatList.clear()
                                             customChatAdapter.setList(fullChatList)
                                             binding.tvEmpty.visibility = View.VISIBLE
                                         }
                                     } else {
-                                        binding.rvChatSearch.visibility=View.GONE
-                                        binding.rvChat.visibility=View.VISIBLE
+                                        binding.rvChatSearch.visibility = View.GONE
+                                        binding.rvChat.visibility = View.VISIBLE
                                         fullChatList.clear()
                                         customChatAdapter.setList(fullChatList)
                                         binding.tvEmpty.visibility = View.VISIBLE
                                     }
                                 } else {
-                                    binding.rvChatSearch.visibility=View.GONE
-                                    binding.rvChat.visibility=View.VISIBLE
+                                    binding.rvChatSearch.visibility = View.GONE
+                                    binding.rvChat.visibility = View.VISIBLE
                                     fullChatList.clear()
                                     customChatAdapter.setList(fullChatList)
                                     binding.tvEmpty.visibility = View.VISIBLE
@@ -168,8 +171,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(),
         viewModel.onClick.observe(viewLifecycleOwner) {
             when (it?.id) {
                 R.id.ivCancel -> {
-                    binding.rvChatSearch.visibility=View.GONE
-                    binding.rvChat.visibility=View.VISIBLE
+                    binding.rvChatSearch.visibility = View.GONE
+                    binding.rvChat.visibility = View.VISIBLE
                     binding.etSearch.setText("")
                     binding.etSearch.clearFocus()
                     hideKeyboard()
@@ -182,7 +185,8 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(),
         binding.etSearch.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 binding.ivCancel.visibility = View.VISIBLE
-                binding.ivSearch.setImageResource(R.drawable.blue_search_rounded)
+                binding.ivSearch.setImageResource(android.R.color.transparent)
+//                binding.ivSearch.setImageResource(R.drawable.blue_search_rounded)
             } else {
                 binding.ivCancel.visibility = View.GONE
                 binding.ivSearch.setImageResource(R.drawable.search_icon)
@@ -235,6 +239,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(),
             R.id.favConstantLayout -> {
                 val bundle = Bundle()
                 bundle.putParcelable("chat", item)
+                bundle.putString("chatId", item._id.toString())
                 BindingUtils.navigateWithSlide(
                     findNavController(), R.id.navigateToChatDetailsFragment, bundle
                 )
@@ -244,11 +249,20 @@ class ChatFragment : BaseFragment<FragmentChatBinding>(),
 
     /** recycler view item click handel **/
     private fun initChatSearchAdapter() {
-        messageSearchAdapter= SimpleRecyclerViewAdapter(R.layout.rv_chat_search_item, BR.bean) { v, m, _ ->
-            when (v?.id) {
-
+        messageSearchAdapter =
+            SimpleRecyclerViewAdapter(R.layout.rv_chat_search_item, BR.bean) { v, m, _ ->
+                when (v?.id) {
+                    R.id.favConstantLayout -> {
+                        val bundle = Bundle()
+                        bundle.putString("chatId", m.chatId.toString())
+                        bundle.putString("limit", m.limit.toString())
+                        bundle.putString("chat_search",Gson().toJson(m).toString())
+                        BindingUtils.navigateWithSlide(
+                            findNavController(), R.id.navigateToChatDetailsFragment, bundle
+                        )
+                    }
+                }
             }
-        }
         binding.rvChatSearch.adapter = messageSearchAdapter
     }
 

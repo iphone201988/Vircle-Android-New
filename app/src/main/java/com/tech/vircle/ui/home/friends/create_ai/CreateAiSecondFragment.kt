@@ -121,6 +121,7 @@ class CreateAiSecondFragment : BaseFragment<FragmentCreateAiSecondBinding>() {
                 }
                 // Next button click
                 R.id.btnNext -> {
+
                     if (aiContactList?.type?.isNotEmpty() == true) {
                         val bundle = Bundle().apply {
                             putParcelable("SecondTypeData", aiContactList)
